@@ -1,0 +1,57 @@
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+import {Injectable} from '@angular/core';
+import {Observable, Subject, Subscription} from 'rxjs';
+
+@Injectable()
+export class CameraMediumWebsocketService {
+  webSocketEndPoint = 'http://localhost:8080/ws-smart-home-register-endpoint';
+  previewUrl = '/user/preview/medium';
+  previewInitializationUrl = '/ws/preview/medium/start';
+  stompClient: any;
+  connectionReattemptTimeout = 5000;
+
+  private imageSubject = new Subject<string>();
+
+
+  _connect() {
+    const ws = new SockJS(this.webSocketEndPoint);
+    this.stompClient = Stomp.over(ws);
+    const that = this;
+    that.stompClient.connect({'X-Requested-With': 'XMLHttpRequest'}, (frame) => {
+      that.stompClient.subscribe(that.previewUrl, (sdkEvent) => {
+        that.onMessageReceived(sdkEvent);
+      });
+      this._initializePreview();
+      // _this.stompClient.reconnect_delay = 2000;
+    }, this.errorCallBack);
+  }
+
+  _disconnect() {
+    if (this.stompClient !== null) {
+      this.stompClient.send('/preview/medium/stop', {});
+      this.stompClient.disconnect();
+      this.stompClient = null;
+    }
+  }
+
+  // on error, schedule a reconnection attempt
+  private errorCallBack(error) {
+    setTimeout(() => {
+      this._connect();
+    }, this.connectionReattemptTimeout);
+  }
+
+  private onMessageReceived(response) {
+    // console.log((JSON.parse(message.body)));
+    this.imageSubject.next(JSON.parse(response.body).src);
+  }
+
+  public getImagePreviewSubscription(): Observable<string> {
+    return this.imageSubject.asObservable();
+}
+
+  private _initializePreview() {
+    this.stompClient.send(this.previewInitializationUrl, {}, '');
+  }
+}

@@ -1,0 +1,6 @@
+<img *ngIf="isPreviewAvailable()" src="data:image/jpeg;base64,{{imageSrc}}" alt="lipa">
+<img *ngIf="!isPreviewAvailable()" src="data:image/jpeg;base64,{{imageSrc}}" alt="lipa">
+<br>
+<button (click)="startPreview()">START</button>
+<button (click)="pausePreview()">WSTRZYMAJ</button>
+<button (click)="stopPreview()">STOP</button>
