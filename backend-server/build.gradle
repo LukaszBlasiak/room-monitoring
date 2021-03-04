@@ -16,7 +16,6 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-messaging'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -29,15 +28,23 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.3.0.RELEASE'
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
     implementation 'org.mapstruct:mapstruct:1.4.1.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
 }
 
+configurations {
+    compile.exclude module: 'spring-boot-starter-logging'
+}
+
 test {
     useJUnitPlatform()
+}
+
+bootWar {
+    archiveFileName  = 'smart-home-medium.war'
 }
 
 

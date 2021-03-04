@@ -2,16 +2,21 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {Injectable} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
+import {ConfigService} from '../../security/service/config.service';
 
 @Injectable()
 export class CameraMediumWebsocketService {
-  webSocketEndPoint = 'http://localhost:8080/ws-smart-home-register-endpoint';
+  webSocketEndPoint;
   previewUrl = '/user/preview/medium';
   previewInitializationUrl = '/ws/preview/medium/start';
   stompClient: any;
   connectionReattemptTimeout = 5000;
 
   private imageSubject = new Subject<string>();
+
+  constructor(private configService: ConfigService) {
+    this.webSocketEndPoint = configService.getBaseUrl() + '/ws-smart-home-register-endpoint';
+  }
 
 
   _connect() {

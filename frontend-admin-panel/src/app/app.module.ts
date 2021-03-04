@@ -14,6 +14,7 @@ import {AuthGuard} from './security/guard';
 import {AlertService, AuthenticationService, UserService} from './security/service';
 import {UnauthorizedInterceptor} from './security/interceptor/UnauthorizedInterceptor';
 import { MediumRoomPreviewComponent } from './camera-preview/component/medium-room-preview/medium-room-preview.component';
+import {ConfigService} from './security/service/config.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MediumRoomPreviewComponent } from './camera-preview/component/medium-ro
     AlertService,
     AuthenticationService,
     UserService,
+    ConfigService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedInterceptor,
