@@ -3,6 +3,7 @@ import * as SockJS from 'sockjs-client';
 import {Injectable} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {ConfigService} from '../../security/service/config.service';
+import {ImageModel} from '../component/medium-room-preview/medium-room-preview.component';
 
 @Injectable()
 export class CameraMediumWebsocketService {
@@ -12,7 +13,7 @@ export class CameraMediumWebsocketService {
   stompClient: any;
   connectionReattemptTimeout = 5000;
 
-  private imageSubject = new Subject<string>();
+  private imageSubject = new Subject<ImageModel>();
 
   constructor(private configService: ConfigService) {
     this.webSocketEndPoint = configService.getBaseUrl() + '/ws-smart-home-register-endpoint';
@@ -52,7 +53,7 @@ export class CameraMediumWebsocketService {
     this.imageSubject.next(JSON.parse(response.body).src);
   }
 
-  public getImagePreviewSubscription(): Observable<string> {
+  public getImagePreviewSubscription(): Observable<ImageModel> {
     return this.imageSubject.asObservable();
 }
 

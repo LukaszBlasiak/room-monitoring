@@ -9,13 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-//                .allowedOrigins("http://localhost:4200")
-                .allowedOrigins("*")
-                .allowCredentials(true)
-                .exposedHeaders("Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Authorization, X-Requested-With, requestId, Correlation-Id");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+////                .allowedOrigins("http://localhost:4200")
+//                .allowedOrigins("*")
+//                .allowCredentials(true)
+//                .exposedHeaders("Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Authorization, X-Requested-With, requestId, Correlation-Id");
+//    }
 }

@@ -4,6 +4,11 @@ import {UserService} from '../../../security/service';
 import {HttpClient} from '@angular/common/http';
 import {CameraMediumWebsocketService} from '../../service/CameraMediumWebsocket.service';
 
+export interface ImageModel {
+  bytesAsBase64: string;
+  creationTime: any;
+}
+
 @Component({
   selector: 'app-medium-room-preview',
   templateUrl: './medium-room-preview.component.html',
@@ -23,9 +28,10 @@ export class MediumRoomPreviewComponent implements OnDestroy {
 
   startPreview() {
     this.cameraMediumWebsocketService._connect();
-    this.mediumRoomPreviewSubscription = this.cameraMediumWebsocketService.getImagePreviewSubscription().subscribe((imageSrc) => {
+    this.mediumRoomPreviewSubscription = this.cameraMediumWebsocketService.getImagePreviewSubscription()
+      .subscribe((imageModel: ImageModel) => {
       if (!this.isPaused) {
-        this.imageSrc = imageSrc;
+        this.imageSrc = imageModel.bytesAsBase64;
       }
     });
   }

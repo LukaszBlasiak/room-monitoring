@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import pl.blasiak.camera.model.ImageModel;
+import pl.blasiak.camera.dto.ImageModel;
 import pl.blasiak.camera.util.PiCameraUtil;
 
 import java.util.Collections;
@@ -35,7 +35,7 @@ public class CameraImageDispatcher {
     }
 
     @Scheduled(fixedDelay = 2000)
-    public void dispatch() {
+    public void sendNewCameraPreview() {
         for (final String listener : listeners) {
             var headerAccessor = this.prepareHeaderAccessor(listener);
             final ImageModel image = piCameraUtil.getCameraImage();

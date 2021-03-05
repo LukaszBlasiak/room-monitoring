@@ -1,7 +1,7 @@
 package pl.blasiak.camera.util;
 
 import pl.blasiak.application.exception.CameraException;
-import pl.blasiak.camera.model.ImageModel;
+import pl.blasiak.camera.dto.ImageModel;
 
 import java.time.LocalDateTime;
 

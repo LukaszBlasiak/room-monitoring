@@ -1,4 +1,4 @@
-package pl.blasiak.security;
+package pl.blasiak.security.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

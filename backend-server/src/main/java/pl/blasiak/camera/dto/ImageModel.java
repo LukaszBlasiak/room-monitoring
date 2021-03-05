@@ -1,13 +1,11 @@
-package pl.blasiak.camera.model;
+package pl.blasiak.camera.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@Data
+@Getter
 @Builder
 public class ImageModel {
 
