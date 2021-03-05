@@ -33,6 +33,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
     implementation 'org.mapstruct:mapstruct:1.4.1.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
+    implementation group: 'de.sciss', name: 'jrpicam', version: '0.2.0'
 }
 
 configurations {
