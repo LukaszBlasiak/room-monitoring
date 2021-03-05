@@ -49,8 +49,7 @@ export class CameraMediumWebsocketService {
   }
 
   private onMessageReceived(response) {
-    // console.log((JSON.parse(message.body)));
-    this.imageSubject.next(JSON.parse(response.body).src);
+    this.imageSubject.next(JSON.parse(response.body));
   }
 
   public getImagePreviewSubscription(): Observable<ImageModel> {

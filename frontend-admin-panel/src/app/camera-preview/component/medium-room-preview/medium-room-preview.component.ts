@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import {UserService} from '../../../security/service';
 import {HttpClient} from '@angular/common/http';
 import {CameraMediumWebsocketService} from '../../service/CameraMediumWebsocket.service';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 export interface ImageModel {
   bytesAsBase64: string;
@@ -17,12 +18,12 @@ export interface ImageModel {
 export class MediumRoomPreviewComponent implements OnDestroy {
 
   currentUser: string;
-  public imageSrc: string;
+  public imageSrc: SafeResourceUrl;
   public isPaused = false;
   private mediumRoomPreviewSubscription: Subscription;
 
   constructor(private userService: UserService, private http: HttpClient,
-              private cameraMediumWebsocketService: CameraMediumWebsocketService) {
+              private cameraMediumWebsocketService: CameraMediumWebsocketService, private sanitizer: DomSanitizer) {
     this.currentUser = localStorage.getItem('currentUser');
   }
 
@@ -30,10 +31,11 @@ export class MediumRoomPreviewComponent implements OnDestroy {
     this.cameraMediumWebsocketService._connect();
     this.mediumRoomPreviewSubscription = this.cameraMediumWebsocketService.getImagePreviewSubscription()
       .subscribe((imageModel: ImageModel) => {
-      if (!this.isPaused) {
-        this.imageSrc = imageModel.bytesAsBase64;
-      }
-    });
+        if (!this.isPaused && imageModel) {
+          this.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+            + imageModel.bytesAsBase64);
+        }
+      });
   }
 
   public pausePreview() {

@@ -13,6 +13,7 @@ import pl.blasiak.camera.util.PiCameraUtil;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Component
 public class CameraImageDispatcher {
@@ -20,6 +21,7 @@ public class CameraImageDispatcher {
     private final SimpMessagingTemplate template;
     private final Set<String> listeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private final PiCameraUtil piCameraUtil;
+    private final ReentrantLock mutex = new ReentrantLock();
 
     public CameraImageDispatcher(final SimpMessagingTemplate template, final PiCameraUtil piCameraUtil) {
         this.template = template;
@@ -34,8 +36,24 @@ public class CameraImageDispatcher {
         listeners.remove(sessionId);
     }
 
-    @Scheduled(fixedDelay = 2000)
+    @Scheduled(fixedDelay = 1000)
     public void sendNewCameraPreview() {
+        if (this.previousScheduleStillSendingPreview()) {
+            return;
+        }
+        try {
+            mutex.lock();
+            this.sendSingleCameraPreviewToAllSubscribers();
+        } finally {
+            mutex.unlock();
+        }
+    }
+
+    private boolean previousScheduleStillSendingPreview() {
+        return this.mutex.isLocked();
+    }
+
+    private void sendSingleCameraPreviewToAllSubscribers() {
         for (final String listener : listeners) {
             var headerAccessor = this.prepareHeaderAccessor(listener);
             final ImageModel image = piCameraUtil.getCameraImage();

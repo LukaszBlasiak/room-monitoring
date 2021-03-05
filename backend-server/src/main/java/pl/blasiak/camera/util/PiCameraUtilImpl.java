@@ -22,8 +22,8 @@ public class PiCameraUtilImpl implements PiCameraUtil {
     private static final Logger logger = LogManager.getLogger();
 
     private final RPiCamera camera;
-    private static final int WIDTH = 1920;
-    private static final int HEIGHT = 1080;
+    private static final int WIDTH = 1280;
+    private static final int HEIGHT = 720;
     private static final String EXTENSION = "jpeg";
 
     public PiCameraUtilImpl() throws FailedToRunRaspistillException {
@@ -41,9 +41,19 @@ public class PiCameraUtilImpl implements PiCameraUtil {
     @Override
     public String getCameraImageAsBase64() {
         try (final ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+            long start = System.nanoTime();
             final BufferedImage image = camera.takeBufferedStill();
+            long elapsedTime = System.nanoTime() - start;
+            logger.info("wykonanie zdjecia: " + elapsedTime);
+            start = System.nanoTime();
             ImageIO.write(image, EXTENSION, os);
-            return Base64.getEncoder().encodeToString(os.toByteArray());
+            elapsedTime = System.nanoTime() - start;
+            logger.info("Zapis do bufora: " + elapsedTime);
+            start = System.nanoTime();
+            final String b = Base64.getEncoder().encodeToString(os.toByteArray());
+            elapsedTime = System.nanoTime() - start;
+            logger.info("Base64: " + elapsedTime);
+            return b;
         } catch (IOException | InterruptedException e) {
             throw new CameraException(e.getMessage(), e);
         }

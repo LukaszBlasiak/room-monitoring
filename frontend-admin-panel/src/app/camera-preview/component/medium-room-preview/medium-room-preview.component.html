@@ -1,5 +1,5 @@
-<img *ngIf="isPreviewAvailable()" src="data:image/jpeg;base64,{{imageSrc}}" alt="lipa">
-<img *ngIf="!isPreviewAvailable()" src="data:image/jpeg;base64,{{imageSrc}}" alt="lipa">
+<img *ngIf="isPreviewAvailable()" [src]="imageSrc" alt="lipa">
+<img *ngIf="!isPreviewAvailable()" [src]="imageSrc" alt="An error occured while downloading camera preview">
 <br>
 <button (click)="startPreview()">START</button>
 <button (click)="pausePreview()">WSTRZYMAJ</button>
