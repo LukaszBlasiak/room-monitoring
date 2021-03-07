@@ -9,8 +9,8 @@
       %highlight{%level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue} - %msg%n" />
         </Console>
         <RollingFile name="RollingFile"
-                     fileName="${baseDir}/spring-boot-logger-log4j2.log"
-                     filePattern="${baseDir}/smart-home-prod-%d{-dd-MMMM-yyyy}-%i.log">
+                     fileName="${baseDir}/smart-home-local.log"
+                     filePattern="${baseDir}/smart-home-local-%d{-dd-MMMM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
@@ -19,7 +19,7 @@
                     10 MegaBytes -->
                 <SizeBasedTriggeringPolicy
                         size="20 MB" />
-                <TimeBasedTriggeringPolicy />
+                <TimeBasedTriggeringPolicy interval="1"/>
             </Policies>
         </RollingFile>
     </Appenders>

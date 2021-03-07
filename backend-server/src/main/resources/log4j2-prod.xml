@@ -19,7 +19,7 @@
                     10 MegaBytes -->
                 <SizeBasedTriggeringPolicy
                         size="20 MB" />
-                <TimeBasedTriggeringPolicy />
+                <TimeBasedTriggeringPolicy interval="1"/>
             </Policies>
         </RollingFile>
     </Appenders>
