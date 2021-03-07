@@ -34,8 +34,8 @@ export class CameraMediumWebsocketService {
   }
 
   _disconnect() {
-    if (this.stompClient !== null) {
-      this.stompClient.send('/preview/medium/stop', {});
+    if (this.stompClient != null) {
+      // this.stompClient.send('/preview/medium/stop', {});
       this.stompClient.disconnect();
       this.stompClient = null;
     }

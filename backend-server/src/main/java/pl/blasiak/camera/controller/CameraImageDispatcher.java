@@ -19,48 +19,57 @@ import java.util.concurrent.locks.ReentrantLock;
 public class CameraImageDispatcher {
 
     private final SimpMessagingTemplate template;
-    private final Set<String> listeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final Set<String> cameraPreviewListeners = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private final PiCameraUtil piCameraUtil;
-    private final ReentrantLock mutex = new ReentrantLock();
+    private final ReentrantLock sendImageMutex = new ReentrantLock();
 
     public CameraImageDispatcher(final SimpMessagingTemplate template, final PiCameraUtil piCameraUtil) {
         this.template = template;
         this.piCameraUtil = piCameraUtil;
     }
 
-    public void add(final String sessionId) {
-        listeners.add(sessionId);
+    @EventListener
+    public void sessionDisconnectionHandler(final SessionDisconnectEvent event) {
+        this.removeSession(event.getSessionId());
     }
 
-    public void remove(final String sessionId) {
-        listeners.remove(sessionId);
+    public void addNewSession(final String sessionId) {
+        cameraPreviewListeners.add(sessionId);
+    }
+
+    public void removeSession(final String sessionId) {
+        cameraPreviewListeners.remove(sessionId);
     }
 
     @Scheduled(fixedDelay = 1000)
     public void sendNewCameraPreview() {
-        if (this.previousScheduleStillSendingPreview()) {
+        if (this.previousScheduleStillSendingImage() || this.noOneIsListeningCameraPreview()) {
             return;
         }
         try {
-            mutex.lock();
-            this.sendSingleCameraPreviewToAllSubscribers();
+            this.sendImageMutex.lock();
+            final ImageModel imageToSend = this.piCameraUtil.getCameraImage();
+            this.sendSingleCameraPreviewToAllSubscribers(imageToSend);
         } finally {
-            mutex.unlock();
+            sendImageMutex.unlock();
         }
     }
 
-    private boolean previousScheduleStillSendingPreview() {
-        return this.mutex.isLocked();
+    private boolean previousScheduleStillSendingImage() {
+        return this.sendImageMutex.isLocked();
     }
 
-    private void sendSingleCameraPreviewToAllSubscribers() {
-        for (final String listener : listeners) {
-            var headerAccessor = this.prepareHeaderAccessor(listener);
-            final ImageModel image = piCameraUtil.getCameraImage();
-            template.convertAndSendToUser(
+    private boolean noOneIsListeningCameraPreview() {
+        return this.cameraPreviewListeners.isEmpty();
+    }
+
+    private void sendSingleCameraPreviewToAllSubscribers(final ImageModel imageToSend) {
+        for (final String listener : cameraPreviewListeners) {
+            final var headerAccessor = this.prepareHeaderAccessor(listener);
+            this.template.convertAndSendToUser(
                     listener,
                     CameraImageController.MEDIUM_ROOM_PREVIEW_SEND_URL,
-                    image,
+                    imageToSend,
                     headerAccessor.getMessageHeaders());
         }
     }
@@ -72,8 +81,5 @@ public class CameraImageDispatcher {
         return headerAccessor;
     }
 
-    @EventListener
-    public void sessionDisconnectionHandler(final SessionDisconnectEvent event) {
-        remove(event.getSessionId());
-    }
+
 }

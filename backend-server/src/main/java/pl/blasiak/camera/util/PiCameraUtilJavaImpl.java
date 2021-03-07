@@ -5,9 +5,8 @@ import com.hopding.jrpicam.enums.Exposure;
 import com.hopding.jrpicam.exceptions.FailedToRunRaspistillException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import pl.blasiak.application.exception.CameraException;
+import pl.blasiak.camera.mapper.ImageModelMapper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,9 +14,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-@Profile("prod")
-@Component
-public class PiCameraUtilImpl implements PiCameraUtil {
+//@Profile("prod")
+//@Component
+/**
+ * Pi camera preview util that uses Java library under the hood to access camera.
+ * This approach is way slower comparing to native python implementation but
+ * does not require any additional script not related to Java Spring application.
+ */
+public class PiCameraUtilJavaImpl extends PiCameraUtil {
 
     private static final Logger logger = LogManager.getLogger();
 
@@ -26,7 +30,8 @@ public class PiCameraUtilImpl implements PiCameraUtil {
     private static final int HEIGHT = 720;
     private static final String EXTENSION = "jpeg";
 
-    public PiCameraUtilImpl() throws FailedToRunRaspistillException {
+    public PiCameraUtilJavaImpl(final ImageModelMapper imageModelMapper) {
+        super(imageModelMapper);
         try {
             this.camera = new RPiCamera();
             camera.setWidth(WIDTH);

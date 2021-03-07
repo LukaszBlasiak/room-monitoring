@@ -1,16 +1,14 @@
 package pl.blasiak.camera.util;
 
-import com.hopding.jrpicam.RPiCamera;
-import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import pl.blasiak.camera.mapper.ImageModelMapper;
 
-import java.io.IOException;
+//@Profile("local")
+//@Component
+public class PiCameraUtilMocked extends PiCameraUtil {
 
-@Profile("local")
-@Component
-@AllArgsConstructor
-public class PiCameraUtilMocked implements PiCameraUtil {
+    public PiCameraUtilMocked(final ImageModelMapper imageModelMapper) {
+        super(imageModelMapper);
+    }
 
     private static final String mockedImageAsBase64 =
             "iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJ" +

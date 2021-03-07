@@ -1,7 +1,6 @@
 package pl.blasiak.camera.controller;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +18,12 @@ public class CameraImageController {
 
     @MessageMapping(MEDIUM_ROOM_PREVIEW_SEND_URL + "/start")
     public void startMediumRoomPreview(StompHeaderAccessor stompHeaderAccessor) {
-        cameraImageDispatcher.add(stompHeaderAccessor.getSessionId());
+        cameraImageDispatcher.addNewSession(stompHeaderAccessor.getSessionId());
     }
 
     @MessageMapping(MEDIUM_ROOM_PREVIEW_SEND_URL + "/stop")
     public void stopMediumRoomPreview(StompHeaderAccessor stompHeaderAccessor) {
-        cameraImageDispatcher.remove(stompHeaderAccessor.getSessionId());
+        cameraImageDispatcher.removeSession(stompHeaderAccessor.getSessionId());
     }
 
 }
