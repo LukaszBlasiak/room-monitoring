@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-import pl.blasiak.camera.dto.ImageModel;
+import pl.blasiak.camera.dto.ImageResponseModel;
 import pl.blasiak.camera.util.PiCameraUtil;
 
 import java.util.Collections;
@@ -48,7 +48,7 @@ public class CameraImageDispatcher {
         }
         try {
             this.sendImageMutex.lock();
-            final ImageModel imageToSend = this.piCameraUtil.getCameraImage();
+            final ImageResponseModel imageToSend = this.piCameraUtil.getCameraImage();
             this.sendSingleCameraPreviewToAllSubscribers(imageToSend);
         } finally {
             sendImageMutex.unlock();
@@ -63,7 +63,7 @@ public class CameraImageDispatcher {
         return this.cameraPreviewListeners.isEmpty();
     }
 
-    private void sendSingleCameraPreviewToAllSubscribers(final ImageModel imageToSend) {
+    private void sendSingleCameraPreviewToAllSubscribers(final ImageResponseModel imageToSend) {
         for (final String listener : cameraPreviewListeners) {
             final var headerAccessor = this.prepareHeaderAccessor(listener);
             this.template.convertAndSendToUser(

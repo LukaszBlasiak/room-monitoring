@@ -18,7 +18,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-smart-home-register-endpoint").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/ws-smart-home-register-endpoint").setAllowedOrigins("http://localhost:4200").withSockJS();
     }
 
 }

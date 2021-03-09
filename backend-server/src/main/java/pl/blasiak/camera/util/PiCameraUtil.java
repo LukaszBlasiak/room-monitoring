@@ -1,7 +1,7 @@
 package pl.blasiak.camera.util;
 
 import pl.blasiak.application.exception.CameraException;
-import pl.blasiak.camera.dto.ImageModel;
+import pl.blasiak.camera.dto.ImageResponseModel;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 
 public abstract class PiCameraUtil {
@@ -13,12 +13,12 @@ public abstract class PiCameraUtil {
     }
 
     /**
-     * Works like {@link PiCameraUtil#getCameraImageAsBase64()} but returns {@link ImageModel} model instead of bytes
+     * Works like {@link PiCameraUtil#getCameraImageAsBase64()} but returns {@link ImageResponseModel} model instead of bytes
      * in base64 format.
-     * @return image in {@link ImageModel} model
+     * @return image in {@link ImageResponseModel} model
      * @throws CameraException could not access camera or some I/O error occured
      */
-    public ImageModel getCameraImage() throws CameraException {
+    public ImageResponseModel getCameraImage() throws CameraException {
         return this.imageModelMapper.toModel(this.getCameraImageAsBase64());
     }
 
@@ -27,5 +27,5 @@ public abstract class PiCameraUtil {
      * @return captured image in base64 format
      * @throws CameraException could not access camera or some I/O error occured
      */
-    protected abstract String getCameraImageAsBase64() throws CameraException;
+    public abstract String getCameraImageAsBase64() throws CameraException;
 }

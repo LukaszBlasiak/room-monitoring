@@ -46,19 +46,9 @@ public class PiCameraUtilJavaImpl extends PiCameraUtil {
     @Override
     public String getCameraImageAsBase64() {
         try (final ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-            long start = System.nanoTime();
             final BufferedImage image = camera.takeBufferedStill();
-            long elapsedTime = System.nanoTime() - start;
-            logger.info("wykonanie zdjecia: " + elapsedTime);
-            start = System.nanoTime();
             ImageIO.write(image, EXTENSION, os);
-            elapsedTime = System.nanoTime() - start;
-            logger.info("Zapis do bufora: " + elapsedTime);
-            start = System.nanoTime();
-            final String b = Base64.getEncoder().encodeToString(os.toByteArray());
-            elapsedTime = System.nanoTime() - start;
-            logger.info("Base64: " + elapsedTime);
-            return b;
+            return Base64.getEncoder().encodeToString(os.toByteArray());
         } catch (IOException | InterruptedException e) {
             throw new CameraException(e.getMessage(), e);
         }
