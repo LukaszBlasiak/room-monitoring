@@ -25,9 +25,9 @@ export class AuthenticationService implements OnDestroy {
   }
 
   login(username: string, password: string) {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('Authorization', 'Basic ' + btoa(username + ':' + password));
-    return this.http.post<any>(this.configService.getBaseUrl() + '/api/logon', null, {headers: headers})
+    let authHeaders: HttpHeaders = new HttpHeaders();
+    authHeaders = authHeaders.append('Authorization', 'Basic ' + btoa(username + ':' + password));
+    return this.http.post<any>(this.configService.getBaseUrl() + '/api/authentication/logon', null, {headers: authHeaders})
       .pipe(map((user: User) => {
         // login successful if there's a jwt token in the response
         localStorage.setItem('currentUser', 'yes');
@@ -43,24 +43,29 @@ export class AuthenticationService implements OnDestroy {
   }
 
   public startKeepAlivePooling(): void {
-    // this.performSingleKeepAlive();
-    // this.keepAliveSubscription = interval(10000)
-    //   .subscribe((val) => {
-    //     this.performSingleKeepAlive();
-    //   });
+    this.performSingleKeepAlive();
+    this.keepAliveSubscription = interval(10000)
+      .subscribe((val) => {
+        this.performSingleKeepAlive();
+      });
   }
 
   private performSingleKeepAlive() {
     if (this.router.url.includes('login')) {
-      return;
+      // return;
     }
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
-    this.http.post<any>(this.configService.getBaseUrl() + '/api/logon/keepAlive', null, {withCredentials: true, headers: headers})
+    let authHeaders: HttpHeaders = new HttpHeaders();
+    authHeaders = authHeaders.append('X-Requested-With', 'XMLHttpRequest');
+    // authHeaders = authHeaders.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
+    this.http.post<any>(this.configService.getBaseUrl() + '/api/authentication/keepAlive', null, {
+      withCredentials: true,
+      headers: authHeaders
+    })
       .subscribe(
-        (resp) => {
+        () => {
         },
         error => {
+          console.log(error);
           const state: RouterState = this.router.routerState;
           this.router.navigate(['login'], {queryParams: {returnUrl: state.snapshot.url}});
         }

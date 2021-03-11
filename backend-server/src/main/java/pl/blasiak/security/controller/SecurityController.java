@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.blasiak.security.config.JwtConstants;
 import pl.blasiak.security.model.JwtRequest;
 import pl.blasiak.security.model.JwtResponse;
-import pl.blasiak.security.service.JwtUserDetailsService;
-import pl.blasiak.security.util.JwtTokenUtil;
+import pl.blasiak.security.service.JwtServiceImpl;
 
 import java.util.Objects;
 
@@ -25,8 +25,7 @@ import java.util.Objects;
 public class SecurityController {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final JwtUserDetailsService jwtUserDetailsService;
+    private final JwtServiceImpl jwtService;
 
     @PostMapping(value = "/logon")
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest)
@@ -36,10 +35,10 @@ public class SecurityController {
                 this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final var tokenData = JwtResponse.builder()
-                .token(jwtUserDetailsService.createToken(authentication))
+                .token(jwtService.createToken(authentication))
                 .type(JwtConstants.TOKEN_TYPE)
                 .build();
-
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok(tokenData);
     }
 

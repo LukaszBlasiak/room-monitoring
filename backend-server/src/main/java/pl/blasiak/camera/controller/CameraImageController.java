@@ -1,11 +1,13 @@
 package pl.blasiak.camera.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@RestController()
+@RestController("/api")
 public class CameraImageController {
 
     private final CameraImageDispatcher cameraImageDispatcher;
@@ -15,6 +17,10 @@ public class CameraImageController {
         this.cameraImageDispatcher = cameraImageDispatcher;
     }
 
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("hello world");
+    }
 
     @MessageMapping(MEDIUM_ROOM_PREVIEW_SEND_URL + "/start")
     public void startMediumRoomPreview(StompHeaderAccessor stompHeaderAccessor) {

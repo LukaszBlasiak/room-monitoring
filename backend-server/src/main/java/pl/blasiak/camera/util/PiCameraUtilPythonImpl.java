@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Base64Utils;
 import pl.blasiak.application.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 import pl.blasiak.common.util.UrlUtilImpl;
@@ -45,7 +46,9 @@ public class PiCameraUtilPythonImpl extends PiCameraUtil {
     @Override
     public String getCameraImageAsBase64() {
         try {
-            return urlUtil.getRestCallAsString(CAMERA_API_URL, HttpMethod.GET, CAMERA_API_PARAMS, String.class);
+            final byte[] imageAsBytes =
+                    urlUtil.getRestCallAsString(CAMERA_API_URL, HttpMethod.GET, CAMERA_API_PARAMS, byte[].class);
+            return Base64Utils.encodeToString(imageAsBytes);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CameraException(e.getMessage(), e);

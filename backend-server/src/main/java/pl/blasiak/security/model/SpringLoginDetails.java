@@ -13,10 +13,11 @@ public class SpringLoginDetails implements UserDetails {
     private final String username;
     private final String password;
     private final boolean active;
+    private final String role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Collections.singletonList(() -> this.role);
     }
 
     @Override

@@ -1,16 +1,12 @@
 package pl.blasiak.security.service;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.NonNull;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.blasiak.security.config.JwtConstants;
 import pl.blasiak.security.config.JwtProperties;
 import pl.blasiak.security.converter.UserDetailsConverter;
 import pl.blasiak.security.entity.UserEntity;
@@ -21,12 +17,11 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Date;
 import java.util.function.Function;
 
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PasswordUtil passwordUtil;
     private final UserRepository userRepository;
@@ -38,9 +33,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private static final char[] password = {'p', 'a', 's', 's', 'w', 'o', 'r', 'd'};
 
-    public JwtUserDetailsService(final PasswordUtil passwordUtil, final UserRepository userRepository,
-                                 @Lazy final PasswordEncoder passwordEncoder, final JwtProperties jwtProperties,
-                                 final UserDetailsConverter userDetailsConverter) {
+    public UserDetailsServiceImpl(final PasswordUtil passwordUtil, final UserRepository userRepository,
+                                  @Lazy final PasswordEncoder passwordEncoder, final JwtProperties jwtProperties,
+                                  final UserDetailsConverter userDetailsConverter) {
         this.passwordUtil = passwordUtil;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -54,22 +49,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         return this.userDetailsConverter.map(foundUser);
     }
 
-    public String createToken(@NonNull final Authentication authentication) {
-        final var now = LocalDateTime.now();
-        final var expirationTime = now.plusSeconds(jwtProperties.getExpiration());
-        final var authorities = Collections.emptyList();
-
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(JwtConstants.JWT_SCOPES, authorities)
-                .signWith(SignatureAlgorithm.forName(jwtProperties.getAlgorithm()), encodeStringWithBase64.apply(jwtProperties.getSecret()))
-                .setIssuedAt(convertLocalDateTimeToDate.apply(now))
-                .setExpiration(convertLocalDateTimeToDate.apply(expirationTime))
-                .compact();
-    }
-
-    public void validateToken(@NonNull final String token) {
-        Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token);
+    public UserEntity getCurrentProfile() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new SecurityException("Current profile not found in database"));
     }
 
     @PostConstruct
