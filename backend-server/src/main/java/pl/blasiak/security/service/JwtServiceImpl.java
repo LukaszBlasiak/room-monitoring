@@ -6,6 +6,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import pl.blasiak.security.config.JwtConstants;
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -49,7 +49,9 @@ public class JwtServiceImpl {
     public String createToken(@NonNull final Authentication authentication) {
         final var now = LocalDateTime.now();
         final var expirationTime = now.plusSeconds(jwtProperties.getExpiration());
-        final var authorities = Collections.emptyList();
+        final var authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 
         return Jwts.builder()
                 .setSubject(authentication.getName())

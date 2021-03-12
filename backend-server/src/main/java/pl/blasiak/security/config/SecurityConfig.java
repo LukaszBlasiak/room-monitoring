@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -38,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
 
     @Override
-    @Profile("local")
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and()
@@ -51,11 +51,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().disable().httpBasic().disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
-                .sessionRegistry(sessionRegistry()).and()
-                .sessionFixation().migrateSession();
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.headers()
+                .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)
+                .and()
+                .contentSecurityPolicy("default-src 'self'")
+                .and()
+                .httpStrictTransportSecurity()
+                .includeSubDomains(true);
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionHandlerFilter, JwtRequestFilter.class);
     }
