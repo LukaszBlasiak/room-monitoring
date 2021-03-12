@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pl.blasiak.application.dto.ErrorResponseData;
+import pl.blasiak.application.dto.ErrorResponseModel;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -36,7 +36,7 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (JwtException e) {
-            var errorResponse = ErrorResponseData.builder()
+            var errorResponse = ErrorResponseModel.builder()
                     .httpStatus(HttpStatus.UNAUTHORIZED)
                     .path(httpServletRequest.getRequestURI())
                     .throwable(e)

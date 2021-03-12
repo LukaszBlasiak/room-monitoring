@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,6 @@ import pl.blasiak.security.service.JwtServiceImpl;
 import pl.blasiak.security.util.CookieUtil;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,9 +30,8 @@ public class SecurityController {
     private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/logon")
-    public ResponseEntity<Void> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest, final HttpServletResponse httpServletResponse)
-            throws Exception {
-
+    public ResponseEntity<Void> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest,
+                                                            final HttpServletResponse httpServletResponse) {
         final var authentication =
                 this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -43,15 +40,10 @@ public class SecurityController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    private Authentication authenticate(final String username, final String password) throws Exception {
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(password);
-        try {
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+    private Authentication authenticate(final String username, final String password) {
+        if (username == null || password == null) {
+            throw new BadCredentialsException("Username or password must not be null");
         }
+        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }

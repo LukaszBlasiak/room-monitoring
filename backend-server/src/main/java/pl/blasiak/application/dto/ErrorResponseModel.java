@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 
 @JsonPropertyOrder(value = {"timestamp", "status", "error", "message", "path", "throwable"})
-public class ErrorResponseData {
+public class ErrorResponseModel {
     @Getter
     private final LocalDateTime timestamp;
     private final HttpStatus httpStatus;
@@ -18,7 +18,7 @@ public class ErrorResponseData {
     private final String path;
 
     @Builder
-    public ErrorResponseData(HttpStatus httpStatus, Throwable throwable, boolean enableStackTrace, String path) {
+    public ErrorResponseModel(HttpStatus httpStatus, Throwable throwable, boolean enableStackTrace, String path) {
         this.timestamp = LocalDateTime.now();
         this.httpStatus = httpStatus;
         this.throwable = throwable;

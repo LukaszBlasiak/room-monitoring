@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.blasiak.application.exception.CameraException;
 
 
 @RestController("/api")
@@ -19,7 +20,8 @@ public class CameraImageController {
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("hello world");
+        throw new CameraException("a");
+//        return ResponseEntity.ok("hello world");
     }
 
     @MessageMapping(MEDIUM_ROOM_PREVIEW_SEND_URL + "/start")
