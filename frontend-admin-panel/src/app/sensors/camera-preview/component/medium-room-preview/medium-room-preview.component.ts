@@ -18,7 +18,6 @@ export interface ImageModel {
 export class MediumRoomPreviewComponent implements OnDestroy {
 
   _isFullscreen = false;
-  currentUser: string;
   public imageSrc: SafeResourceUrl;
   private _lastUpdateTimestamp: Date;
   private mediumRoomPreviewSubscription: Subscription;
@@ -28,7 +27,6 @@ export class MediumRoomPreviewComponent implements OnDestroy {
 
   constructor(private userService: UserService, private http: HttpClient,
               private cameraMediumWebsocketService: CameraMediumWebsocketService, private sanitizer: DomSanitizer) {
-    this.currentUser = localStorage.getItem('currentUser');
   }
 
   startPreview() {
