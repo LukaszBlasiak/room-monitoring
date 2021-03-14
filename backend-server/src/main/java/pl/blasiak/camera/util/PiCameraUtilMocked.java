@@ -1,9 +1,11 @@
 package pl.blasiak.camera.util;
 
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 
-//@Profile("local")
-//@Component
+@Profile("local")
+@Component
 public class PiCameraUtilMocked extends PiCameraUtil {
 
     public PiCameraUtilMocked(final ImageModelMapper imageModelMapper) {

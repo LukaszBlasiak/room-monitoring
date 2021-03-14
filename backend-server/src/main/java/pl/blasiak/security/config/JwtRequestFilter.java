@@ -27,6 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws ServletException, IOException {
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             final Cookie jwtCookie = this.cookieUtil.getJwtCookie(request);
             final var jwtResponse = this.jwtMapper.toJwtResponse(jwtCookie);

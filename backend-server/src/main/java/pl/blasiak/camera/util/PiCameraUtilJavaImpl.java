@@ -5,6 +5,8 @@ import com.hopding.jrpicam.enums.Exposure;
 import com.hopding.jrpicam.exceptions.FailedToRunRaspistillException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import pl.blasiak.application.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 
@@ -14,8 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-//@Profile("prod")
-//@Component
+@Profile("disabled")
+@Component
 /**
  * Pi camera preview util that uses Java library under the hood to access camera.
  * This approach is way slower comparing to native python implementation but

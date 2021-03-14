@@ -1,74 +1,32 @@
-﻿import {Injectable, OnDestroy} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {Config} from '../../common/config';
-import {interval, Subscription} from 'rxjs';
-import {User} from '../model';
+﻿import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {ConfigService} from './config.service';
-import {Router, RouterState} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {map} from 'rxjs/operators';
+
+interface LoginRequestBody {
+  username: string;
+  password: string;
+}
 
 @Injectable()
-export class AuthenticationService implements OnDestroy {
+export class AuthenticationService {
 
-  private keepAliveSubscription: Subscription;
-  private username: string;
-  private password: string;
 
   constructor(private http: HttpClient, private configService: ConfigService, private router: Router) {
   }
 
-  ngOnDestroy() {
-    if (this.keepAliveSubscription != null) {
-      this.keepAliveSubscription.unsubscribe();
-    }
-  }
-
   login(username: string, password: string) {
-    let authHeaders: HttpHeaders = new HttpHeaders();
-    authHeaders = authHeaders.append('Authorization', 'Basic ' + btoa(username + ':' + password));
-    return this.http.post<any>(this.configService.getBaseUrl() + '/api/authentication/logon', null, {headers: authHeaders})
-      .pipe(map((user: User) => {
+    const loginRequestBody: LoginRequestBody = {username, password};
+    return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/logon', loginRequestBody, { withCredentials: true})
+      .pipe(map(() => {
         // login successful if there's a jwt token in the response
         localStorage.setItem('currentUser', 'yes');
-        this.username = username;
-        this.password = password;
-        return user;
+
       }));
   }
 
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
-  }
-
-  public startKeepAlivePooling(): void {
-    this.performSingleKeepAlive();
-    this.keepAliveSubscription = interval(10000)
-      .subscribe((val) => {
-        this.performSingleKeepAlive();
-      });
-  }
-
-  private performSingleKeepAlive() {
-    if (this.router.url.includes('login')) {
-      // return;
-    }
-    let authHeaders: HttpHeaders = new HttpHeaders();
-    authHeaders = authHeaders.append('X-Requested-With', 'XMLHttpRequest');
-    // authHeaders = authHeaders.append('Authorization', 'Basic ' + btoa(this.username + ':' + this.password));
-    this.http.post<any>(this.configService.getBaseUrl() + '/api/authentication/keepAlive', null, {
-      withCredentials: true,
-      headers: authHeaders
-    })
-      .subscribe(
-        () => {
-        },
-        error => {
-          console.log(error);
-          const state: RouterState = this.router.routerState;
-          this.router.navigate(['login'], {queryParams: {returnUrl: state.snapshot.url}});
-        }
-      );
+    // TODO: endpoint url
   }
 }

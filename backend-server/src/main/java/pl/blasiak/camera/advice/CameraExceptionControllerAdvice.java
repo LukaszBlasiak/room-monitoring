@@ -1,5 +1,7 @@
 package pl.blasiak.camera.advice;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class CameraExceptionControllerAdvice {
 
+    private static final Logger logger = LogManager.getLogger();
+
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({ CameraException.class})
     public ResponseEntity<ErrorResponseModel> internalException(final CameraException e, HttpServletRequest request) {
@@ -24,7 +28,7 @@ public class CameraExceptionControllerAdvice {
                 .path(request.getRequestURI())
                 .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
                 .build();
-
+        logger.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseData);
     }
 

@@ -9,7 +9,4 @@ import {AuthenticationService} from './security/service';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.startKeepAlivePooling();
-  }
 }

@@ -20,7 +20,7 @@ import java.util.Map;
  * This approach is way faster comparing to Java implementation but
  * require additional REST call to Python script not related to Java Spring application.
  */
-@Profile("local")
+@Profile("prod")
 @Component
 public class PiCameraUtilPythonImpl extends PiCameraUtil {
 
