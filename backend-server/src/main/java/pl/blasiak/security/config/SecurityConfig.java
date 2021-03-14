@@ -80,36 +80,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Profile("local")
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:4200");
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedHeader("X-XSRF-TOKEN");
-        config.addAllowedHeader("x-requested-with");
-        config.addAllowedHeader("Authorization");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        source.registerCorsConfiguration("/**", config);
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("http://localhost:4200");
+        this.addCommonCorsConfig(corsConfiguration);
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
     }
 
     @Bean
     @Profile("prod")
     public CorsFilter corsFilterLocal() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedHeader("X-XSRF-TOKEN");
-        config.addAllowedHeader("x-requested-with");
-        config.addAllowedHeader("Authorization");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        source.registerCorsConfiguration("/**", config);
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        this.addCommonCorsConfig(corsConfiguration);
+        source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
+    }
+
+    private void addCommonCorsConfig(CorsConfiguration corsConfiguration) {
+        corsConfiguration.addAllowedHeader("Content-Type");
+        corsConfiguration.addAllowedHeader("X-XSRF-TOKEN");
+        corsConfiguration.addAllowedHeader("x-requested-with");
+        corsConfiguration.addAllowedHeader("Authorization");
+        corsConfiguration.addAllowedMethod("GET");
+        corsConfiguration.addAllowedMethod("POST");
+        corsConfiguration.addAllowedMethod("PUT");
+        corsConfiguration.addAllowedMethod("DELETE");
     }
 
     @Bean

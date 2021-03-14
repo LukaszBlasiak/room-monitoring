@@ -2,7 +2,7 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {Injectable} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
-import {ConfigService} from '../../security/service/config.service';
+import {ConfigService} from '../../../security/service/config.service';
 import {ImageModel} from '../component/medium-room-preview/medium-room-preview.component';
 
 @Injectable()

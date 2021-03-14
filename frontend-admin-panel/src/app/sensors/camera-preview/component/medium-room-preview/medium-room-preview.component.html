@@ -1,0 +1,13 @@
+<img *ngIf="isPreviewAvailable()"
+     [src]="imageSrc"
+     onContextMenu="return false;"
+     [ngClass]="{ 'medium-preview-image fullscreen': isFullscreen, 'medium-preview-image small': !isFullscreen  }">
+<img *ngIf="!isPreviewAvailable()"
+     src="/assets/preview.png"
+     onContextMenu="return false;"
+     [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
+<br>
+<button (click)="startPreview()">START</button>
+<button (click)="stopPreview()">STOP</button>
+<button (click)="invertFullscreenState()">Fullscreen</button>
+<p id="last-update-paragraph" *ngIf="isPreviewAvailable()">Last update: {{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
