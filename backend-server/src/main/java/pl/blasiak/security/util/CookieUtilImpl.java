@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.blasiak.security.config.JwtConstants;
 import pl.blasiak.security.config.JwtProperties;
-import pl.blasiak.security.model.JwtResponse;
+import pl.blasiak.security.model.JwtModel;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +19,8 @@ public class CookieUtilImpl implements CookieUtil {
 
 
     @Override
-    public void saveJwtCookie(final JwtResponse jwtResponse, final HttpServletResponse httpServletResponse) {
-        Cookie cookie = new Cookie(jwtResponse.getType(), jwtResponse.getToken());
+    public void saveJwtCookie(final JwtModel jwtModel, final HttpServletResponse httpServletResponse) {
+        Cookie cookie = new Cookie(jwtModel.getType(), jwtModel.getToken());
         cookie.setHttpOnly(true);
         cookie.setMaxAge(jwtProperties.getExpiration());
         cookie.setPath("/");

@@ -61,8 +61,4 @@ public class JwtServiceImpl {
                 .setExpiration(convertLocalDateTimeToDate.apply(expirationTime))
                 .compact();
     }
-
-    public void validateToken(String token) {
-        Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token);
-    }
 }

@@ -26,6 +26,8 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import pl.blasiak.security.config.filter.JwtExceptionHandlerFilter;
+import pl.blasiak.security.config.filter.JwtRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -63,13 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionHandlerFilter, JwtRequestFilter.class);
+//        http.addFilterBefore(corsHeaderFilter,JwtRequestFilter.class);
     }
 
 
 
     @Override
     public void configure(final WebSecurity webSecurity) {
-        webSecurity.ignoring().antMatchers("/api/auth/**");
+        webSecurity.ignoring().antMatchers("/api/auth/logon");
     }
 
     @Bean
@@ -102,11 +105,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfiguration.addAllowedHeader("Content-Type");
         corsConfiguration.addAllowedHeader("X-XSRF-TOKEN");
         corsConfiguration.addAllowedHeader("x-requested-with");
+        corsConfiguration.addAllowedHeader("Access-Control-Allow-Credentials");
+        corsConfiguration.addExposedHeader("Access-Control-Allow-Credentials");
         corsConfiguration.addAllowedHeader("Authorization");
         corsConfiguration.addAllowedMethod("GET");
         corsConfiguration.addAllowedMethod("POST");
         corsConfiguration.addAllowedMethod("PUT");
         corsConfiguration.addAllowedMethod("DELETE");
+        corsConfiguration.setAllowCredentials(true);
     }
 
     @Bean
@@ -140,17 +146,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void setJwtUserDetailsService(UserDetailsService jwtUserDetailsService) {
+    public void setJwtUserDetailsService(final UserDetailsService jwtUserDetailsService) {
         this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     @Autowired
-    public void setJwtRequestFilter(JwtRequestFilter jwtRequestFilter) {
+    public void setJwtRequestFilter(final JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
     @Autowired
-    public void setJwtExceptionHandlerFilter(JwtExceptionHandlerFilter jwtExceptionHandlerFilter) {
+    public void setJwtExceptionHandlerFilter(final JwtExceptionHandlerFilter jwtExceptionHandlerFilter) {
         this.jwtExceptionHandlerFilter = jwtExceptionHandlerFilter;
     }
 }

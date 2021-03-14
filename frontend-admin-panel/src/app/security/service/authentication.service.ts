@@ -21,9 +21,13 @@ export class AuthenticationService {
     return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/logon', loginRequestBody, { withCredentials: true})
       .pipe(map(() => {
         // login successful if there's a jwt token in the response
-        localStorage.setItem('currentUser', 'yes');
+        // localStorage.setItem('currentUser', 'yes');
 
       }));
+  }
+
+  validate() {
+    return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/validate', '', { withCredentials: true});
   }
 
   logout() {

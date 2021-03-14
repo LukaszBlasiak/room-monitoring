@@ -46,4 +46,9 @@ public class SecurityController {
         }
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
+
+    @PostMapping("/validate")
+    public ResponseEntity<Void> validateJwt() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

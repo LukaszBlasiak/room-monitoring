@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {UserService} from '../../../../security/service';
-import {HttpClient} from '@angular/common/http';
 import {CameraMediumWebsocketService} from '../../service/CameraMediumWebsocket.service';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
@@ -25,7 +24,7 @@ export class MediumRoomPreviewComponent implements OnDestroy {
   get isFullscreen() { return this._isFullscreen; }
   get lastUpdateTimestamp() { return this._lastUpdateTimestamp; }
 
-  constructor(private userService: UserService, private http: HttpClient,
+  constructor(private userService: UserService,
               private cameraMediumWebsocketService: CameraMediumWebsocketService, private sanitizer: DomSanitizer) {
   }
 

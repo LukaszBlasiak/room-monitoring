@@ -1,4 +1,4 @@
-package pl.blasiak.security.config;
+package pl.blasiak.security.config.filter;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,8 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (SecurityContextHolder.getContext().getAuthentication() == null && !request.getRequestURI().contains("/logon")) {
             final Cookie jwtCookie = this.cookieUtil.getJwtCookie(request);
             final var jwtResponse = this.jwtMapper.toJwtResponse(jwtCookie);
             if (jwtResponse != null && jwtResponse.getToken() != null) {

@@ -10,7 +10,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const clonedRequest = request.clone({ headers: request.headers.append('X-Requested-With', 'XMLHttpRequest') });
+    const clonedRequest = request.clone({ headers: request.headers.append('X-Requested-With', 'XMLHttpRequest'), withCredentials: true });
     return next.handle(clonedRequest).pipe( tap(() => {},
       (err: any) => {
         if (err instanceof HttpErrorResponse) {

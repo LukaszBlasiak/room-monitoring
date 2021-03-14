@@ -1,4 +1,4 @@
-package pl.blasiak.security.config;
+package pl.blasiak.security.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
