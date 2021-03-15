@@ -1,10 +1,11 @@
 package pl.blasiak.environment.service;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 import pl.blasiak.environment.dto.Bme280MeasurementsModel;
 
 @Profile("local")
-//@Service
+@Service
 public class Bme280ServiceMocked implements Bme280Service {
     @Override
     public Bme280MeasurementsModel getBme280Measurements() {

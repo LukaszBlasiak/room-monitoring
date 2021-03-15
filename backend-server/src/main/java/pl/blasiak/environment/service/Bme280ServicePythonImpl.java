@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Service
-@Profile("local")
+@Profile("prod")
 public class Bme280ServicePythonImpl implements Bme280Service {
 
     private static final Logger LOGGER = LogManager.getLogger();
