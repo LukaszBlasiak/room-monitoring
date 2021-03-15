@@ -42,7 +42,8 @@ import { EnvironmentComponent } from './sensors/environment/component/environmen
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedInterceptor,
-      multi: true
+      multi: true,
+      deps: [AuthenticationService]
     }],
   bootstrap: [AppComponent]
 })

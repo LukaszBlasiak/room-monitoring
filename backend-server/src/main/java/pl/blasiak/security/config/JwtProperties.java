@@ -11,4 +11,5 @@ public class JwtProperties {
     private String secret;
     private String algorithm;
     private int expiration;
+    private boolean secureFlag;
 }

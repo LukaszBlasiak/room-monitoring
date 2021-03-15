@@ -1,6 +1,7 @@
 package pl.blasiak.security.util;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
 import pl.blasiak.security.config.JwtConstants;
 import pl.blasiak.security.config.JwtProperties;
@@ -21,10 +22,7 @@ public class CookieUtilImpl implements CookieUtil {
     @Override
     public void saveJwtCookie(final JwtModel jwtModel, final HttpServletResponse httpServletResponse) {
         Cookie cookie = new Cookie(jwtModel.getType(), jwtModel.getToken());
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(jwtProperties.getExpiration());
-        cookie.setPath("/");
-//        cookie.setSecure(true); // TODO: TBD
+        this.setCookieProperties(cookie, jwtProperties.getExpiration());
         httpServletResponse.addCookie(cookie);
     }
 
@@ -35,5 +33,27 @@ public class CookieUtilImpl implements CookieUtil {
                 .filter(cookie -> JwtConstants.TOKEN_TYPE.equals(cookie.getName()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public void deleteJwtCookie(final HttpServletRequest httpServletRequest,
+                                final HttpServletResponse httpServletResponse) {
+        final Cookie jwtCookie = this.getJwtCookie(httpServletRequest);
+        if (jwtCookie == null) {
+            return;
+        }
+        jwtCookie.setValue(Strings.EMPTY);
+        this.setCookieProperties(jwtCookie, 0);
+        httpServletResponse.addCookie(jwtCookie);
+    }
+
+    private void setCookieProperties(final Cookie cookie, final int expirationTime) {
+        if (cookie == null) {
+            return;
+        }
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(expirationTime);
+        cookie.setPath("/");
+        cookie.setSecure(jwtProperties.isSecureFlag());
     }
 }

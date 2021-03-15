@@ -18,19 +18,20 @@ export class AuthenticationService {
 
   login(username: string, password: string) {
     const loginRequestBody: LoginRequestBody = {username, password};
-    return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/logon', loginRequestBody, { withCredentials: true})
+    return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/logon', loginRequestBody)
       .pipe(map(() => {
         // login successful if there's a jwt token in the response
-        // localStorage.setItem('currentUser', 'yes');
+        localStorage.setItem('currentUser', username);
 
       }));
   }
 
   validate() {
-    return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/validate', '', { withCredentials: true});
+    return this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/validate', '');
   }
 
   logout() {
-    // TODO: endpoint url
+    localStorage.clear();
+    this.http.post<any>(this.configService.getBaseUrl() + '/api/auth/logout', '').subscribe();
   }
 }

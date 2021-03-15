@@ -17,6 +17,7 @@ import pl.blasiak.security.model.JwtRequest;
 import pl.blasiak.security.service.JwtServiceImpl;
 import pl.blasiak.security.util.CookieUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -45,6 +46,13 @@ public class SecurityController {
             throw new BadCredentialsException("Username or password must not be null");
         }
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(final HttpServletRequest httpServletRequest,
+                                       final HttpServletResponse httpServletResponse) {
+        this.cookieUtil.deleteJwtCookie(httpServletRequest, httpServletResponse);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/validate")

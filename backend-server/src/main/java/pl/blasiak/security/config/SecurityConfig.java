@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .csrfTokenRepository(this.getCsrfTokenRepository()) do srpawdzenie!!
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/auth/logon").permitAll()
+                .antMatchers("/api/auth/logon", "/api/auth/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable().httpBasic().disable()
@@ -65,7 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionHandlerFilter, JwtRequestFilter.class);
-//        http.addFilterBefore(corsHeaderFilter,JwtRequestFilter.class);
     }
 
 

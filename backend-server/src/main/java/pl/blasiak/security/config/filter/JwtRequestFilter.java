@@ -27,7 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws ServletException, IOException {
-        if (SecurityContextHolder.getContext().getAuthentication() == null && !request.getRequestURI().contains("/logon")) {
+        if (SecurityContextHolder.getContext().getAuthentication() == null && !this.isUrlOnWhiteList(request)) {
             final Cookie jwtCookie = this.cookieUtil.getJwtCookie(request);
             final var jwtResponse = this.jwtMapper.toJwtResponse(jwtCookie);
             if (jwtResponse != null && jwtResponse.getToken() != null) {
@@ -37,6 +37,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
         chain.doFilter(request, response);
+    }
+
+    private boolean isUrlOnWhiteList(final HttpServletRequest request) {
+        return request.getRequestURI().contains("/logon") ||
+               request.getRequestURI().contains("/logout");
+
     }
 
 }

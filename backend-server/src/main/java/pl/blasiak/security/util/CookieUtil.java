@@ -10,5 +10,7 @@ public interface CookieUtil {
 
     void saveJwtCookie(final JwtModel jwtModel, final HttpServletResponse httpServletResponse);
 
+    void deleteJwtCookie(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse);
+
     Cookie getJwtCookie(final HttpServletRequest httpServletRequest);
 }

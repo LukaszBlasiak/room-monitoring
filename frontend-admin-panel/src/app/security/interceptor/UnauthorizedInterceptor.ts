@@ -3,11 +3,12 @@ import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../service';
 
 @Injectable()
 export class UnauthorizedInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private _authenticationService: AuthenticationService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const clonedRequest = request.clone({ headers: request.headers.append('X-Requested-With', 'XMLHttpRequest'), withCredentials: true });
@@ -17,6 +18,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
           if (err.status !== 401 || request.url.includes('login')) {
             return;
           }
+          this._authenticationService.logout();
           this.router.navigate(['login']);
         }
       }));
