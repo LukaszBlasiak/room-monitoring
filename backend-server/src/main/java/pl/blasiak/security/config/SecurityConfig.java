@@ -62,7 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpStrictTransportSecurity()
                 .includeSubDomains(true);
-
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionHandlerFilter, JwtRequestFilter.class);
     }

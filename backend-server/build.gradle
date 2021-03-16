@@ -42,6 +42,7 @@ dependencies {
     compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.2'
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.3.1'
 
 
 }
