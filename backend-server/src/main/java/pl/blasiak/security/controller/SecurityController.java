@@ -1,5 +1,7 @@
 package pl.blasiak.security.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
+@Api(description = "Set of endpoints for Creating, Retrieving, and Deleting user's session. Token is returned in " +
+                   "request cookie with httpOnly=true flag.")
 public class SecurityController {
 
     private final AuthenticationManager authenticationManager;
@@ -31,6 +35,7 @@ public class SecurityController {
     private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/logon")
+    @ApiOperation("Returns a new JWT based on given credentials.")
     public ResponseEntity<Void> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest,
                                                             final HttpServletResponse httpServletResponse) {
         final var authentication =
@@ -49,6 +54,7 @@ public class SecurityController {
     }
 
     @PostMapping("/logout")
+    @ApiOperation("Performs logout operation by deleting JWT given in cookie with httpOnly=true flag.")
     public ResponseEntity<Void> logout(final HttpServletRequest httpServletRequest,
                                        final HttpServletResponse httpServletResponse) {
         this.cookieUtil.deleteJwtCookie(httpServletRequest, httpServletResponse);
@@ -56,6 +62,8 @@ public class SecurityController {
     }
 
     @PostMapping("/validate")
+    @ApiOperation("Validates whether given JWT token is valid - otherwise returns 401 code. Token must be provided in" +
+            "request cookie with httpOnly=true flag.")
     public ResponseEntity<Void> validateJwt() {
         return new ResponseEntity<>(HttpStatus.OK);
     }

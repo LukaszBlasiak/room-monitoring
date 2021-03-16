@@ -58,15 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)
                 .and()
-                .contentSecurityPolicy("default-src 'self'")
+                .contentSecurityPolicy("default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'")
                 .and()
                 .httpStrictTransportSecurity()
                 .includeSubDomains(true);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtExceptionHandlerFilter, JwtRequestFilter.class);
     }
-
-
 
     @Override
     public void configure(final WebSecurity webSecurity) {
