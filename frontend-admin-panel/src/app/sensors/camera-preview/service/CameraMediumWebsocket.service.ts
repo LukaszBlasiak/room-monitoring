@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {ConfigService} from '../../../security/service/config.service';
 import {ImageModel} from '../component/medium-room-preview/medium-room-preview.component';
+import {AuthenticationService} from '../../../security/service/authentication.service';
 
 @Injectable()
 export class CameraMediumWebsocketService {
@@ -15,16 +16,17 @@ export class CameraMediumWebsocketService {
 
   private imageSubject = new Subject<ImageModel>();
 
-  constructor(private configService: ConfigService) {
-    this.webSocketEndPoint = configService.getBaseUrl() + '/ws-smart-home-register-endpoint';
+  constructor(private _configService: ConfigService, private _authenticationService: AuthenticationService) {
+    this.webSocketEndPoint = _configService.getBaseUrl() + '/ws-smart-home-register-endpoint';
   }
 
 
   _connect() {
-    const ws = new SockJS(this.webSocketEndPoint);
+    const jwtToken = this._authenticationService.getRawToken();
+    const ws = new SockJS(this.webSocketEndPoint + `?Authorization=Bearer ${jwtToken}`);
     this.stompClient = Stomp.over(ws);
     const that = this;
-    that.stompClient.connect({'X-Requested-With': 'XMLHttpRequest'}, (frame) => {
+    that.stompClient.connect({Authorization: 'Bearer ' + jwtToken}, (frame) => {
       that.stompClient.subscribe(that.previewUrl, (sdkEvent) => {
         that.onMessageReceived(sdkEvent);
       });

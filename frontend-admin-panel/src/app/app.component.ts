@@ -1,7 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CameraMediumWebsocketService} from './sensors/camera-preview/service/CameraMediumWebsocket.service';
-import {Subscription} from 'rxjs';
-import {AuthenticationService} from './security/service';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',

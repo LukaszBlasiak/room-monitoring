@@ -1,25 +1,30 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '../service';
+import {Cookie} from 'ng2-cookies/ng2-cookies';
+import {AuthenticationService} from '../service/authentication.service';
 
 @Injectable()
 export class UnauthorizedInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router, private _authenticationService: AuthenticationService) {}
+  constructor(private _router: Router, private _authenticationService: AuthenticationService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const clonedRequest = request.clone({ headers: request.headers.append('X-Requested-With', 'XMLHttpRequest'), withCredentials: true });
-    return next.handle(clonedRequest).pipe( tap(() => {},
+    let clonedHeaders = request.headers;
+    const jwtToken = this._authenticationService.getRawToken();
+    if (jwtToken) {
+      clonedHeaders = clonedHeaders.append('Authorization', `Bearer ${jwtToken}`);
+    }
+    const clonedRequest = request.clone({headers: clonedHeaders});
+    return next.handle(clonedRequest).pipe(tap(() => {
+      },
       (err: any) => {
         if (err instanceof HttpErrorResponse) {
-          if (err.status !== 401 || request.url.includes('login')) {
-            return;
+          if ((err.status === 401 || err.status === 403) && !request.url.includes('login')) {
+            this._router.navigate(['login']);
           }
-          this._authenticationService.logout();
-          this.router.navigate(['login']);
         }
       }));
   }
