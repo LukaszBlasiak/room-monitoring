@@ -13,6 +13,8 @@ export class CameraMediumWebsocketService {
   previewInitializationUrl = '/ws/preview/medium/start';
   stompClient: any;
   connectionReattemptTimeout = 5000;
+  private _failedAttempts = 0;
+  private _failedAttemptsLimit = 5;
 
   private imageSubject = new Subject<ImageModel>();
 
@@ -32,12 +34,11 @@ export class CameraMediumWebsocketService {
       });
       this._initializePreview();
       // _this.stompClient.reconnect_delay = 2000;
-    }, this.errorCallBack);
+    }, this.errorCallBack.bind(this));
   }
 
   _disconnect() {
     if (this.stompClient != null) {
-      // this.stompClient.send('/preview/medium/stop', {});
       this.stompClient.disconnect();
       this.stompClient = null;
     }
@@ -45,7 +46,11 @@ export class CameraMediumWebsocketService {
 
   // on error, schedule a reconnection attempt
   private errorCallBack(error) {
+    if (this._failedAttempts >= this._failedAttemptsLimit) {
+      return;
+    }
     setTimeout(() => {
+      this._failedAttempts++;
       this._connect();
     }, this.connectionReattemptTimeout);
   }
