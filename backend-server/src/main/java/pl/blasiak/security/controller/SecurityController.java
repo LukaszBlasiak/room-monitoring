@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.blasiak.security.config.JwtConstants;
 import pl.blasiak.security.converter.JwtMapper;
+import pl.blasiak.security.model.JwtModel;
 import pl.blasiak.security.model.JwtRequest;
 import pl.blasiak.security.service.JwtServiceImpl;
-import pl.blasiak.security.util.CookieUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,18 +29,15 @@ public class SecurityController {
     private final AuthenticationManager authenticationManager;
     private final JwtServiceImpl jwtService;
     private final JwtMapper jwtMapper;
-    private final CookieUtil cookieUtil;
 
     @PostMapping(value = "/logon")
     @ApiOperation("Returns a new JWT based on given credentials.")
-    public ResponseEntity<Void> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest,
-                                                            final HttpServletResponse httpServletResponse) {
+    public ResponseEntity<JwtModel> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest) {
         final var authentication =
                 this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final var jwtResponse = this.jwtMapper.toJwtResponse(JwtConstants.TOKEN_TYPE, jwtService.createToken(authentication));
-        this.cookieUtil.saveJwtCookie(jwtResponse, httpServletResponse);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        final var jwtModel = this.jwtMapper.toJwtResponse(JwtConstants.TOKEN_TYPE, jwtService.createToken(authentication));
+        return new ResponseEntity<>(jwtModel, HttpStatus.OK);
     }
 
     private Authentication authenticate(final String username, final String password) {
@@ -53,18 +47,4 @@ public class SecurityController {
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
-    @PostMapping("/logout")
-    @ApiOperation("Performs logout operation by deleting JWT given in cookie with httpOnly=true flag.")
-    public ResponseEntity<Void> logout(final HttpServletRequest httpServletRequest,
-                                       final HttpServletResponse httpServletResponse) {
-        this.cookieUtil.deleteJwtCookie(httpServletRequest, httpServletResponse);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/validate")
-    @ApiOperation("Validates whether given JWT token is valid - otherwise returns 401 code. Token must be provided in" +
-            "request cookie with httpOnly=true flag.")
-    public ResponseEntity<Void> validateJwt() {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

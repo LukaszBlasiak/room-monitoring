@@ -28,11 +28,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import pl.blasiak.security.config.filter.JwtExceptionHandlerFilter;
 import pl.blasiak.security.config.filter.JwtRequestFilter;
+import pl.blasiak.security.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile("prod")
+public class SecurityConfigProd extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService jwtUserDetailsService;
 
@@ -45,7 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().and()
                 .csrf().disable()
-//                .csrfTokenRepository(this.getCsrfTokenRepository()) do srpawdzenie!!
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/auth/logon", "/api/auth/logout").permitAll()
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN)
                 .and()
-                .contentSecurityPolicy("default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; style-src-elem 'self' 'unsafe-inline'")
+                .contentSecurityPolicy("default-src 'self'")
                 .and()
                 .httpStrictTransportSecurity()
                 .includeSubDomains(true);
@@ -68,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity webSecurity) {
-        webSecurity.ignoring().antMatchers("/api/auth/logon");
     }
 
     @Bean
@@ -76,28 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
-    @Bean
-    @Profile("local")
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:4200");
-        this.addCommonCorsConfig(corsConfiguration);
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
-    }
 
     @Bean
-    @Profile("prod")
     public CorsFilter corsFilterLocal() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
-        this.addCommonCorsConfig(corsConfiguration);
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
-    }
-
-    private void addCommonCorsConfig(CorsConfiguration corsConfiguration) {
         corsConfiguration.addAllowedHeader("Content-Type");
         corsConfiguration.addAllowedHeader("X-XSRF-TOKEN");
         corsConfiguration.addAllowedHeader("x-requested-with");
@@ -108,20 +91,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfiguration.addAllowedMethod("POST");
         corsConfiguration.addAllowedMethod("PUT");
         corsConfiguration.addAllowedMethod("DELETE");
-        corsConfiguration.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(source);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public CsrfTokenRepository getCsrfTokenRepository() {
-//        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-//        tokenRepository.setCookiePath("/");
-//        return tokenRepository;
-//    }
 
     @Bean
     public SessionRegistry sessionRegistry() {
@@ -142,7 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void setJwtUserDetailsService(final UserDetailsService jwtUserDetailsService) {
+    public void setJwtUserDetailsService(final UserDetailsServiceImpl jwtUserDetailsService) {
         this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
