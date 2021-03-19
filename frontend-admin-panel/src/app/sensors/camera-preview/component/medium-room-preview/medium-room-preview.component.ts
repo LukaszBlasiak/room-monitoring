@@ -16,26 +16,37 @@ export interface ImageModel {
 export class MediumRoomPreviewComponent implements OnDestroy {
 
   _isFullscreen = false;
+  _isPlaying = false;
   public imageSrc: SafeResourceUrl;
   private _lastUpdateTimestamp: Date;
   private mediumRoomPreviewSubscription: Subscription;
 
-  get isFullscreen() { return this._isFullscreen; }
-  get lastUpdateTimestamp() { return this._lastUpdateTimestamp; }
+  get isFullscreen() {
+    return this._isFullscreen;
+  }
+
+  get lastUpdateTimestamp() {
+    return this._lastUpdateTimestamp;
+  }
 
   constructor(private cameraMediumWebsocketService: CameraMediumWebsocketService, private sanitizer: DomSanitizer) {
   }
 
   startPreview() {
+    this._isPlaying = true;
     this.cameraMediumWebsocketService._connect();
     this.mediumRoomPreviewSubscription = this.cameraMediumWebsocketService.getImagePreviewSubscription()
-      .subscribe((imageModel: ImageModel) => {
-        if (imageModel) {
-          this.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
-            + imageModel.bytesAsBase64);
-          this._lastUpdateTimestamp = new Date(imageModel.creationTime);
-        }
-      });
+      .subscribe(
+        (imageModel: ImageModel) => {
+          if (imageModel) {
+            this.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+              + imageModel.bytesAsBase64);
+            this._lastUpdateTimestamp = new Date(imageModel.creationTime);
+          }
+        },
+        (error => {
+          this._isPlaying = false;
+        }));
   }
 
   ngOnDestroy() {
@@ -43,6 +54,7 @@ export class MediumRoomPreviewComponent implements OnDestroy {
   }
 
   stopPreview() {
+    this._isPlaying = false;
     this.cameraMediumWebsocketService._disconnect();
     if (this.mediumRoomPreviewSubscription != null && !this.mediumRoomPreviewSubscription.closed) {
       this.mediumRoomPreviewSubscription.unsubscribe();
@@ -56,5 +68,7 @@ export class MediumRoomPreviewComponent implements OnDestroy {
     return this.imageSrc != null;
   }
 
-  public invertFullscreenState() { this._isFullscreen = !this._isFullscreen; }
+  public invertFullscreenState() {
+    this._isFullscreen = !this._isFullscreen;
+  }
 }
