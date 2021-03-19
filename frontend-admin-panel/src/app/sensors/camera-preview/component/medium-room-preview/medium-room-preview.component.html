@@ -6,6 +6,7 @@
 <img *ngIf="!isPreviewAvailable()"
      src="./assets/preview.png"
      onContextMenu="return false;"
+     id = "preview_thumbnail"
      [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
 <br>
 <button class="control-button aligned-with-icon"
