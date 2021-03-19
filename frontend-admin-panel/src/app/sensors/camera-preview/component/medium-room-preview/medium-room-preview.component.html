@@ -29,5 +29,5 @@
   {{ 'CAMERA.FULLSCREEN' | translate }}
 </button>
 <p id="last-update-paragraph" *ngIf="isPreviewAvailable()">
-  {{ ('CAMERA.LAST_UPDATE' | translate) + ':' }}{{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }}
+  {{ ('CAMERA.LAST_UPDATE' | translate)}}: {{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }} + {{ sizeInKb }}kB
 </p>

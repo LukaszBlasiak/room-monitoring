@@ -17,16 +17,21 @@ export class MediumRoomPreviewComponent implements OnDestroy {
 
   _isFullscreen = false;
   _isPlaying = false;
+  _sizeInKb: string;
   public imageSrc: SafeResourceUrl;
   private _lastUpdateTimestamp: Date;
   private mediumRoomPreviewSubscription: Subscription;
 
-  get isFullscreen() {
+  get isFullscreen(): boolean {
     return this._isFullscreen;
   }
 
-  get lastUpdateTimestamp() {
+  get lastUpdateTimestamp(): Date {
     return this._lastUpdateTimestamp;
+  }
+
+  get sizeInKb(): string {
+    return this._sizeInKb;
   }
 
   constructor(private cameraMediumWebsocketService: CameraMediumWebsocketService, private sanitizer: DomSanitizer) {
@@ -42,6 +47,7 @@ export class MediumRoomPreviewComponent implements OnDestroy {
             this.imageSrc = this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
               + imageModel.bytesAsBase64);
             this._lastUpdateTimestamp = new Date(imageModel.creationTime);
+            this._sizeInKb = (imageModel.bytesAsBase64.length / 1000).toFixed(0);
           }
         },
         (error => {

@@ -27,6 +27,7 @@ export class CameraMediumWebsocketService {
     const jwtToken = this._authenticationService.getRawToken();
     const ws = new SockJS(this.webSocketEndPoint + `?Authorization=Bearer ${jwtToken}`);
     this.stompClient = Stomp.over(ws);
+    this.stompClient.debug = null;
     const that = this;
     that.stompClient.connect({Authorization: 'Bearer ' + jwtToken}, (frame) => {
       that.stompClient.subscribe(that.previewUrl, (sdkEvent) => {
@@ -47,7 +48,7 @@ export class CameraMediumWebsocketService {
   // on error, schedule a reconnection attempt
   private errorCallBack(error) {
     if (this._failedAttempts >= this._failedAttemptsLimit) {
-      return;
+      this._disconnect();
     }
     setTimeout(() => {
       this._failedAttempts++;

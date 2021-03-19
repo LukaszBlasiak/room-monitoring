@@ -22,7 +22,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule, MatIconModule} from '@angular/material';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
