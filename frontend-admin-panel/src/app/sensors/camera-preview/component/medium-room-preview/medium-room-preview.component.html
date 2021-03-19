@@ -1,6 +1,6 @@
 <img *ngIf="isPreviewAvailable()"
      [src]="imageSrc"
-     class = "medium-preview-image"
+     class="medium-preview-image"
      onContextMenu="return false;"
      [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
 <img *ngIf="!isPreviewAvailable()"
@@ -8,9 +8,26 @@
      onContextMenu="return false;"
      [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
 <br>
-<button class="control-button" (click)="startPreview()" [disabled]="_isPlaying">{{ 'CAMERA.START' | translate }}</button>
-<button class="control-button" (click)="stopPreview()" [disabled]="!_isPlaying">{{ 'CAMERA.STOP' | translate }}</button>
-<button class="control-button" (click)="invertFullscreenState()">{{ 'CAMERA.FULLSCREEN' | translate }}</button>
+<button class="control-button aligned-with-icon"
+        mat-raised-button color="primary"
+        (click)="startPreview()"
+        [disabled]="_isPlaying">
+  <mat-icon>play_circle</mat-icon>
+  {{ 'CAMERA.START' | translate }}
+</button>
+<button class="control-button aligned-with-icon"
+        mat-raised-button color="warn"
+        (click)="stopPreview()"
+        [disabled]="!_isPlaying">
+  <mat-icon>stop</mat-icon>
+  {{ 'CAMERA.STOP' | translate }}
+</button>
+<button class="control-button aligned-with-icon"
+        mat-stroked-button
+        (click)="invertFullscreenState()">
+  <mat-icon>open_in_new</mat-icon>
+  {{ 'CAMERA.FULLSCREEN' | translate }}
+</button>
 <p id="last-update-paragraph" *ngIf="isPreviewAvailable()">
   {{ ('CAMERA.LAST_UPDATE' | translate) + ':' }}{{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }}
 </p>

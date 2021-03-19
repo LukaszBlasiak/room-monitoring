@@ -18,6 +18,8 @@ import {AlertService} from './security/service/alert.service';
 import {AuthenticationService} from './security/service/authentication.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule, MatIconModule} from '@angular/material';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -43,7 +45,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    NoopAnimationsModule,
+    MatButtonModule,
+    MatIconModule
   ],
   providers: [CameraMediumWebsocketService,
     AuthGuard,
