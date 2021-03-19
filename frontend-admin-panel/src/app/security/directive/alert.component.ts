@@ -4,14 +4,13 @@ import {Subscription} from 'rxjs';
 import {AlertService} from '../service/alert.service';
 
 @Component({
-    // moduleId: module.id,
     selector: 'app-alert',
     templateUrl: 'alert.component.html'
 })
 
 export class AlertComponent implements OnDestroy {
     private subscription: Subscription;
-    message: any;
+    message: string;
 
     constructor(private alertService: AlertService) {
         // subscribe to alert messages

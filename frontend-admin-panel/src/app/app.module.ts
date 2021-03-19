@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CameraMediumWebsocketService} from './sensors/camera-preview/service/CameraMediumWebsocket.service';
 import {FormsModule} from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AlertComponent} from './security/directive';
 import {LoginComponent} from './security/login';
 import {HomeComponent} from './main/component/home';
@@ -16,6 +16,12 @@ import {ConfigService} from './security/service/config.service';
 import { EnvironmentComponent } from './sensors/environment/component/environment.component';
 import {AlertService} from './security/service/alert.service';
 import {AuthenticationService} from './security/service/authentication.service';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -30,7 +36,14 @@ import {AuthenticationService} from './security/service/authentication.service';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [CameraMediumWebsocketService,
     AuthGuard,

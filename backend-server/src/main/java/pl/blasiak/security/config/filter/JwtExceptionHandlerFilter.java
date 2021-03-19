@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pl.blasiak.application.dto.ErrorResponseModel;
+import pl.blasiak.common.dto.ErrorCode;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -39,10 +40,11 @@ public class JwtExceptionHandlerFilter extends OncePerRequestFilter {
             var errorResponse = ErrorResponseModel.builder()
                     .httpStatus(HttpStatus.UNAUTHORIZED)
                     .path(httpServletRequest.getRequestURI())
-                    .throwable(e)
+                    .errorCode(ErrorCode.AUTH_03.name())
+                    .message(ErrorCode.AUTH_03.getMessage())
                     .build();
             httpServletResponse.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            httpServletResponse.setStatus(errorResponse.getStatus());
+            httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             httpServletResponse.getWriter().write(mapper.writeValueAsString(mapper.writeValueAsString(errorResponse)));
         }
     }

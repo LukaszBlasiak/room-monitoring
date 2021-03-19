@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.blasiak.application.dto.ErrorResponseModel;
 import pl.blasiak.application.exception.CameraException;
+import pl.blasiak.common.dto.ErrorCode;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,9 +25,10 @@ public class CameraExceptionControllerAdvice {
     @ExceptionHandler({ CameraException.class})
     public ResponseEntity<ErrorResponseModel> internalException(final CameraException e, HttpServletRequest request) {
         final var responseData = ErrorResponseModel.builder()
-                .throwable(e)
                 .path(request.getRequestURI())
                 .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .errorCode(ErrorCode.CAMERA_01.name())
+                .message(ErrorCode.CAMERA_01.getMessage())
                 .build();
         logger.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseData);

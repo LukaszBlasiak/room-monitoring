@@ -8,7 +8,9 @@
      onContextMenu="return false;"
      [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
 <br>
-<button (click)="startPreview()">START</button>
-<button (click)="stopPreview()">STOP</button>
-<button (click)="invertFullscreenState()">Fullscreen</button>
-<p id="last-update-paragraph" *ngIf="isPreviewAvailable()">Last update: {{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+<button (click)="startPreview()">{{ 'CAMERA.START' | translate }}</button>
+<button (click)="stopPreview()">{{ 'CAMERA.STOP' | translate }}</button>
+<button (click)="invertFullscreenState()">{{ 'CAMERA.FULLSCREEN' | translate }}</button>
+<p id="last-update-paragraph" *ngIf="isPreviewAvailable()">
+  {{ ('CAMERA.LAST_UPDATE' | translate) + ':' }}{{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }}
+</p>

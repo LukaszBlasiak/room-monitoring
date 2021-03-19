@@ -1,0 +1,13 @@
+{
+  "LOGIN_FORM": {
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "LOGIN": "Sign in"
+  },
+  "CAMERA": {
+    "START": "Start",
+    "STOP": "Stop",
+    "FULLSCREEN": "Fullscreen",
+    "LAST_UPDATE": "Last update"
+  }
+}
