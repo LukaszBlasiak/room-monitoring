@@ -15,7 +15,7 @@
                    [ngModelOptions]="{standalone: true}"
                    #username="ngModel"
                    required />
-            <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+            <div *ngIf="f.submitted && !username.valid" class="help-block">{{ 'LOGIN_FORM.VALIDATIONS.USERNAME_REQUIRED' | translate }}</div>
           </div>
           <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
             <label for="password">{{ 'LOGIN_FORM.PASSWORD' | translate }}</label>
@@ -26,7 +26,7 @@
                    [ngModelOptions]="{standalone: true}"
                    #password="ngModel"
                    required />
-            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+            <div *ngIf="f.submitted && !password.valid" class="help-block">{{ 'LOGIN_FORM.VALIDATIONS.PASSWORD_REQUIRED' | translate }}</div>
           </div>
           <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">{{ 'LOGIN_FORM.LOGIN' | translate }}</button>

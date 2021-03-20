@@ -2,12 +2,17 @@
   "LOGIN_FORM": {
     "USERNAME": "Nazwa użytkownika",
     "PASSWORD": "Hasło",
-    "LOGIN": "Zaloguj"
+    "LOGIN": "Zaloguj",
+    "VALIDATIONS": {
+      "USERNAME_REQUIRED": "Nazwa użytkownika jest wymagana",
+      "PASSWORD_REQUIRED": "Hasło jest wymagane"
+    }
   },
   "CAMERA": {
     "START": "Start",
     "STOP": "Stop",
     "FULLSCREEN": "Pełny ekran",
-    "LAST_UPDATE": "Ostatnia aktualizacja"
+    "LAST_UPDATE": "Ostatnia aktualizacja",
+    "OVERLAY_MESSAGE": "Wciśnij 'Start' aby rozpocząć stream"
   }
 }

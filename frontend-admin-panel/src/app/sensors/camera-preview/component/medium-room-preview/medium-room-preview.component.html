@@ -1,34 +1,43 @@
-<img *ngIf="isPreviewAvailable()"
-     [src]="imageSrc"
-     class="medium-preview-image"
-     onContextMenu="return false;"
-     [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
-<img *ngIf="!isPreviewAvailable()"
-     src="./assets/preview.png"
-     onContextMenu="return false;"
-     id="preview_thumbnail"
-     [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
+<div class="container" [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen }">
+  <img *ngIf="isPreviewAvailable()"
+       [src]="imageSrc"
+       class="medium-preview-image"
+       onContextMenu="return false;"
+       [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
+  <img *ngIf="!isPreviewAvailable()"
+       src="./assets/preview.png"
+       onContextMenu="return false;"
+       id="preview_thumbnail">
+  <div *ngIf="!isPreviewAvailable()" class="middle">
+    <div class="text">
+      {{ 'CAMERA.OVERLAY_MESSAGE' | translate }}
+    </div>
+  </div>
+</div>
 <br>
-<button class="control-button aligned-with-icon"
-        mat-raised-button color="primary"
-        (click)="startPreview()"
-        [disabled]="_isPlaying">
-  <mat-icon>play_circle</mat-icon>
-  {{ 'CAMERA.START' | translate }}
-</button>
-<button class="control-button aligned-with-icon"
-        mat-raised-button color="warn"
-        (click)="stopPreview()"
-        [disabled]="!_isPlaying">
-  <mat-icon>stop</mat-icon>
-  {{ 'CAMERA.STOP' | translate }}
-</button>
-<button class="control-button aligned-with-icon"
-        mat-stroked-button
-        (click)="invertFullscreenState()">
-  <mat-icon>open_in_new</mat-icon>
-  {{ 'CAMERA.FULLSCREEN' | translate }}
-</button>
+<div id="control-buttons-wrapper">
+  <button class="control-button aligned-with-icon"
+          mat-raised-button color="primary"
+          (click)="startPreview()"
+          [disabled]="_isPlaying">
+    <mat-icon>play_circle</mat-icon>
+    {{ 'CAMERA.START' | translate }}
+  </button>
+  <button class="control-button aligned-with-icon"
+          mat-raised-button color="warn"
+          (click)="stopPreview()"
+          [disabled]="!_isPlaying">
+    <mat-icon>stop</mat-icon>
+    {{ 'CAMERA.STOP' | translate }}
+  </button>
+  <button class="control-button aligned-with-icon"
+          mat-stroked-button
+          (click)="invertFullscreenState()">
+    <mat-icon>open_in_new</mat-icon>
+    {{ 'CAMERA.FULLSCREEN' | translate }}
+  </button>
+</div>
+
 <p id="last-update-paragraph" *ngIf="isPreviewAvailable()">
   {{ ('CAMERA.LAST_UPDATE' | translate)}}: {{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }} + {{ sizeInKb }}kB
 </p>
