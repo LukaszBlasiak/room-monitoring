@@ -1,10 +1,11 @@
 ﻿import {Injectable} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
+import {ErrorModel} from '../model/error.model';
 
 @Injectable()
 export class AlertService {
-  private subject = new Subject<any>();
+  private subject = new Subject<ErrorModel>();
   private keepAfterNavigationChange = false;
 
   constructor(private router: Router) {
@@ -22,12 +23,17 @@ export class AlertService {
     });
   }
 
-  error(message: string, keepAfterNavigationChange = false) {
+  success(message: string, keepAfterNavigationChange = false): void {
     this.keepAfterNavigationChange = keepAfterNavigationChange;
-    this.subject.next({type: 'error', text: message});
+    this.subject.next({ type: 'success', message });
   }
 
-  getMessage(): Observable<any> {
+  error(message: string, keepAfterNavigationChange = false): void {
+    this.keepAfterNavigationChange = keepAfterNavigationChange;
+    this.subject.next({type: 'error', message});
+  }
+
+  getMessage(): Observable<ErrorModel> {
     return this.subject.asObservable();
   }
 }

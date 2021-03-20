@@ -5,7 +5,6 @@ import {AlertService} from '../service/alert.service';
 
 
 @Component({
-  // moduleId: module.id,
   templateUrl: 'login.component.html'
 })
 

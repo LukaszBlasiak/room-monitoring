@@ -1,6 +1,4 @@
 ﻿import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map} from 'rxjs/operators';
 import {Config} from '../../common/config';
 import {isDevMode} from '@angular/core';
 

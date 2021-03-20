@@ -20,7 +20,6 @@ export class AuthenticationService {
     const loginRequestBody: LoginRequestBody = {username, password};
     return this._http.post<any>(this._configService.getBaseUrl() + '/api/auth/logon', loginRequestBody)
       .pipe(map((response: LoginResponseModel) => {
-        // login successful if there's a jwt token in the response
         localStorage.setItem('currentUser', username);
         this._jwtModel = response;
       }));
