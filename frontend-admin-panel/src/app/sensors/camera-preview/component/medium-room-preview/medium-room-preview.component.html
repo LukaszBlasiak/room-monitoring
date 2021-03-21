@@ -14,7 +14,6 @@
     </div>
   </div>
 </div>
-<br>
 <div id="control-buttons-wrapper">
   <button class="control-button aligned-with-icon"
           mat-raised-button color="primary"
@@ -39,5 +38,5 @@
 </div>
 
 <p id="last-update-paragraph" *ngIf="isPreviewAvailable()">
-  {{ ('CAMERA.LAST_UPDATE' | translate)}}: {{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }} + {{ sizeInKb }}kB
+  {{ ('CAMERA.LAST_UPDATE' | translate)}}: {{ lastUpdateTimestamp | date: 'yyyy-MM-dd HH:mm:ss' }} {{ sizeInKb }}kB
 </p>

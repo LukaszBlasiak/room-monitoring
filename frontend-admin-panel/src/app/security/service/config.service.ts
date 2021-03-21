@@ -13,5 +13,12 @@ export class ConfigService {
     }
   }
 
+  public getOpenWeatherMapApiKey(): string {
+    return Config.OPEN_WEATHER_MAP_API_KEY;
+  }
+
+  public getOpenWeatherMapCityId(): string {
+    return Config.OPEN_WEATHER_MAP_CITY_ID;
+  }
 
 }

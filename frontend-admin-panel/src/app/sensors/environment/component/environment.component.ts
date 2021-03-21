@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ConfigService} from '../../../security/service/config.service';
+import {AuthenticationService} from '../../../security/service/authentication.service';
+import {Subscription} from 'rxjs';
 
 interface Bme280MeasurementsModel {
   temperature: number;
@@ -16,13 +18,23 @@ interface Bme280MeasurementsModel {
 export class EnvironmentComponent implements OnInit {
 
   private _temperature: string;
+  private _weatherTemperature: string;
   private _humidity: string;
   private _pressure: string;
   private _bme280MeasurementEndpoint: string;
+  private _weatherEndpoint: string;
 
+  constructor(private _http: HttpClient, private configService: ConfigService) {
+    this._bme280MeasurementEndpoint = configService.getBaseUrl() + '/api/bme280';
+    this._weatherEndpoint = `https://api.openweathermap.org/data/2.5/weather?id=${configService.getOpenWeatherMapCityId()}&appid=${configService.getOpenWeatherMapApiKey()}`;
+  }
 
   get temperature() {
     return this._temperature;
+  }
+
+  get weatherTemperature(): string {
+    return this._weatherTemperature;
   }
 
   get humidity() {
@@ -33,20 +45,20 @@ export class EnvironmentComponent implements OnInit {
     return this._pressure;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {
-    this._bme280MeasurementEndpoint = configService.getBaseUrl() + '/api/bme280';
-  }
 
   ngOnInit(): void {
     this._getMeasurements();
   }
 
   private _getMeasurements(): void {
-    this.http.get(this._bme280MeasurementEndpoint).subscribe(
+    this._http.get(this._bme280MeasurementEndpoint).subscribe(
       (model: Bme280MeasurementsModel) => {
         this._temperature = model.temperature.toFixed(1);
         this._humidity = model.humidity.toFixed(1);
         this._pressure = model.pressure.toFixed(1);
       });
+    this._http.get(this._weatherEndpoint).subscribe((res: any) => {
+      this._weatherTemperature = (res.main.temp - 273.15).toFixed(1);
+    });
   }
 }

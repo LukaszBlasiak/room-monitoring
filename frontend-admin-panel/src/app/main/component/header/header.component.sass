@@ -1,0 +1,36 @@
+$scroll-indicator-height: 5px
+#row
+  top: 0
+  display: flex
+  align-items: center
+  z-index: 200
+  height: 6vw
+  min-height: 40px
+  max-height: 70px
+  width: 100vw
+  background-color: #343536 !important
+  span#url
+    position: absolute
+    font-family: 'Just Another Hand', cursive !important
+    font-size: calc(min(2.5vw, 28px))
+    white-space: nowrap
+    color: #e8b220
+    letter-spacing: 1px
+    padding-left: 1%
+    cursor: pointer
+  div#measurements-component
+    position: absolute
+
+@media screen and (max-width: 510px)
+  span#url
+    display: none
+
+@media screen and (max-width: 510px)
+  div#measurements-component
+    position: relative !important
+    margin: auto
+
+@media screen and (min-width: 510px)
+  div#measurements-component
+    position: absolute
+    left: 28%

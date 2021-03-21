@@ -15,6 +15,9 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.isWeatherApiCall(request)) {
+      return next.handle(request);
+    }
     let clonedHeaders = request.headers;
     const jwtToken = this._authenticationService.getRawToken();
     if (jwtToken) {
@@ -32,5 +35,9 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
 
   private isAuthenticationError(error: HttpErrorResponse | any, request: HttpRequest<any>): boolean {
     return error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403) && !request.url.includes('login');
+  }
+
+  private isWeatherApiCall(request: HttpRequest<any>): boolean {
+    return request.url.includes('openweathermap');
   }
 }
