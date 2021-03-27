@@ -26,6 +26,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.security.config.filter.JwtExceptionHandlerFilter;
 import pl.blasiak.security.config.filter.JwtRequestFilter;
 import pl.blasiak.security.service.UserDetailsServiceImpl;
@@ -33,7 +34,7 @@ import pl.blasiak.security.service.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@Profile("local")
+@Profile(ProfilesConfig.PROFILE_LOCAL)
 public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService jwtUserDetailsService;

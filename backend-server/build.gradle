@@ -46,7 +46,8 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
-
+//    testCompile "org.testcontainers:testcontainers:1.15.2"
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.7.7'
 }
 
 configurations {

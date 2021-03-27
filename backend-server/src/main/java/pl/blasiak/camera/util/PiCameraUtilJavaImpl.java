@@ -16,13 +16,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-@Profile("disabled")
-@Component
 /**
  * Pi camera preview util that uses Java library under the hood to access camera.
  * This approach is way slower comparing to native python implementation but
  * does not require any additional script not related to Java Spring application.
  */
+@Profile("disabled")
+@Component
+@Deprecated
 public class PiCameraUtilJavaImpl extends PiCameraUtil {
 
     private static final Logger logger = LogManager.getLogger();

@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.client.ResourceAccessException;
+import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.application.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 import pl.blasiak.common.util.PythonApiUrl;
@@ -19,7 +21,7 @@ import java.util.Collections;
  * This approach is way faster comparing to Java implementation but
  * require additional REST call to Python script not related to Java Spring application.
  */
-@Profile("prod")
+@Profile(ProfilesConfig.PROFILE_PROD)
 @Component
 public class PiCameraUtilPythonImpl extends PiCameraUtil {
 
@@ -37,7 +39,7 @@ public class PiCameraUtilPythonImpl extends PiCameraUtil {
             final byte[] imageAsBytes =
                     urlUtil.getRestCallResult(PythonApiUrl.MEDIUM_ROOM_PREVIEW, HttpMethod.GET, Collections.emptyMap(), byte[].class);
             return Base64Utils.encodeToString(imageAsBytes);
-        } catch (IOException e) {
+        } catch (IOException | ResourceAccessException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CameraException(e.getMessage(), e);
         }

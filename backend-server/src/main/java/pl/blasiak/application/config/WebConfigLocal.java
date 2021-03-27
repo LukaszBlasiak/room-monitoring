@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@Profile("local")
+@Profile(ProfilesConfig.PROFILE_LOCAL)
 public class WebConfigLocal implements WebMvcConfigurer {
 
     @Override
