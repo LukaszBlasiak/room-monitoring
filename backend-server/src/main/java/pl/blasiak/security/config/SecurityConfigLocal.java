@@ -41,6 +41,8 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
 
     private JwtRequestFilter jwtRequestFilter;
 
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     private JwtExceptionHandlerFilter jwtExceptionHandlerFilter;
 
     @Override
@@ -52,6 +54,8 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/auth/logon", "/api/auth/logout", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .formLogin().disable().httpBasic().disable()
                 .sessionManagement()
@@ -141,5 +145,10 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
     @Autowired
     public void setJwtExceptionHandlerFilter(final JwtExceptionHandlerFilter jwtExceptionHandlerFilter) {
         this.jwtExceptionHandlerFilter = jwtExceptionHandlerFilter;
+    }
+
+    @Autowired
+    public void setJwtAuthenticationEntryPoint(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 }

@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class CameraImageController {
 
     private final CameraImageDispatcher cameraImageDispatcher;
-    public static final String MEDIUM_ROOM_PREVIEW_SEND_URL = "/preview/medium";
+    public static final String MEDIUM_ROOM_PREVIEW_URL_PREFIX = "/preview/medium";
 
     public CameraImageController(final CameraImageDispatcher cameraImageDispatcher) {
         this.cameraImageDispatcher = cameraImageDispatcher;
     }
 
-    @MessageMapping(MEDIUM_ROOM_PREVIEW_SEND_URL + "/start")
+    @MessageMapping(MEDIUM_ROOM_PREVIEW_URL_PREFIX + "/start")
     public void startMediumRoomPreview(StompHeaderAccessor stompHeaderAccessor) {
         cameraImageDispatcher.addNewSession(stompHeaderAccessor.getSessionId());
     }
 
-    @MessageMapping(MEDIUM_ROOM_PREVIEW_SEND_URL + "/stop")
+    @MessageMapping(MEDIUM_ROOM_PREVIEW_URL_PREFIX + "/stop")
     public void stopMediumRoomPreview(StompHeaderAccessor stompHeaderAccessor) {
         cameraImageDispatcher.removeSession(stompHeaderAccessor.getSessionId());
     }
