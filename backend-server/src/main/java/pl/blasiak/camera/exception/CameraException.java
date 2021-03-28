@@ -1,4 +1,4 @@
-package pl.blasiak.application.exception;
+package pl.blasiak.camera.exception;
 
 public class CameraException extends RuntimeException {
 

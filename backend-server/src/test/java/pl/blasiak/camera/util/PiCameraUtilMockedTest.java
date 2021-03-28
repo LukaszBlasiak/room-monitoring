@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles(ProfilesConfig.PROFILE_LOCAL)
-public class PiCameraUtilTest {
+public class PiCameraUtilMockedTest {
 
     @Autowired
     private PiCameraUtil piCameraUtilMocked;

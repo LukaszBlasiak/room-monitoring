@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import pl.blasiak.application.config.ProfilesConfig;
-import pl.blasiak.application.exception.CameraException;
+import pl.blasiak.camera.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 
 import java.io.FileInputStream;

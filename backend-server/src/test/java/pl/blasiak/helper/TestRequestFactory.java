@@ -30,6 +30,12 @@ public class TestRequestFactory {
                 .header(HttpHeaders.AUTHORIZATION, String.format("%s %s", JwtConstants.BEARER, token));
     }
 
+    public String getAuthToken() {
+        final var authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(USERNAME, PASSWORD));
+        return jwtService.createToken(authentication);
+    }
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

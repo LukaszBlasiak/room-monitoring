@@ -1,4 +1,4 @@
-package pl.blasiak.environment.controller;
+package pl.blasiak.sensor.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

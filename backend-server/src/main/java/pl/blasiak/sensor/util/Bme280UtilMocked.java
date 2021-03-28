@@ -1,12 +1,12 @@
-package pl.blasiak.environment.service;
+package pl.blasiak.sensor.util;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import pl.blasiak.environment.dto.Bme280MeasurementsModel;
+import pl.blasiak.sensor.dto.Bme280MeasurementsModel;
 
 @Profile("local")
 @Service
-public class Bme280ServiceMocked implements Bme280Service {
+public class Bme280UtilMocked implements Bme280Util {
     @Override
     public Bme280MeasurementsModel getBme280Measurements() {
         return Bme280MeasurementsModel.builder()

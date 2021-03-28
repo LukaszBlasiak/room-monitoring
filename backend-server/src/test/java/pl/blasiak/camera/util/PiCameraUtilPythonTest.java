@@ -11,7 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.ProfilesConfig;
-import pl.blasiak.application.exception.CameraException;
+import pl.blasiak.camera.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 import pl.blasiak.common.util.PythonApiUrl;
 import pl.blasiak.common.util.PythonApiUtilImpl;
@@ -56,7 +56,7 @@ public class PiCameraUtilPythonTest {
 
         final var imageModel = this.piCameraUtilPython.getCameraImage();
         assertNotNull(imageModel);
-        assertEquals(imageModel.getCreationTime().truncatedTo(ChronoUnit.MINUTES), LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
+        assertEquals(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), imageModel.getCreationTime().truncatedTo(ChronoUnit.MINUTES));
         assertDoesNotThrow(() -> Base64.getDecoder().decode(imageModel.getBytesAsBase64()));
     }
 

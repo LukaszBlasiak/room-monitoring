@@ -10,7 +10,9 @@ public enum ErrorCode {
     AUTH_02("Given user has been disabled."),
     AUTH_03("Given JWT is invalid or expired."),
 
-    CAMERA_01("An unexpected error occurred while trying attempt raspberry camera. Please try again later.");
+    CAMERA_01("An unexpected error occurred while trying attempt raspberry camera. Please try again later."),
+
+    SENSOR_01("An unexpected error occurred while trying attempt BME280 sensor. Please try again later.");
 
 
     ErrorCode(final String message) {

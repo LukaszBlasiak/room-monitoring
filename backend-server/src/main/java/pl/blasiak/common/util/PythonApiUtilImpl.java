@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.blasiak.application.exception.CameraException;
+import pl.blasiak.camera.exception.CameraException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.ProfilesConfig;
-import pl.blasiak.application.exception.CameraException;
+import pl.blasiak.camera.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
 import pl.blasiak.common.util.PythonApiUrl;
 import pl.blasiak.common.util.PythonApiUtilImpl;

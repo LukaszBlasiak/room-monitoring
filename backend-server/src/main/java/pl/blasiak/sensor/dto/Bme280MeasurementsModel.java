@@ -1,4 +1,4 @@
-package pl.blasiak.environment.dto;
+package pl.blasiak.sensor.dto;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
