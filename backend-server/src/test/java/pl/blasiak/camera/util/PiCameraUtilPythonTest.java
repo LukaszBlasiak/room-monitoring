@@ -13,8 +13,8 @@ import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.camera.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
-import pl.blasiak.common.util.PythonApiUrl;
-import pl.blasiak.common.util.PythonApiUtilImpl;
+import pl.blasiak.common.util.ExternalApiUrl;
+import pl.blasiak.common.util.ExternalApiUtilImpl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +32,7 @@ import static org.mockito.ArgumentMatchers.eq;
 public class PiCameraUtilPythonTest {
 
     @Mock
-    private PythonApiUtilImpl pythonApiUtil;
+    private ExternalApiUtilImpl pythonApiUtil;
 
     @Autowired
     private ImageModelMapper imageModelMapper;
@@ -51,7 +51,7 @@ public class PiCameraUtilPythonTest {
     @Test
     @DisplayName("Get camera image model from python API - should return image")
     public void getCameraImage_ShouldReturnImageModel() throws IOException {
-        Mockito.when(this.pythonApiUtil.getRestCallResult(any(PythonApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
+        Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenReturn(this.getBase64ImageAsByteArray());
 
         final var imageModel = this.piCameraUtilPython.getCameraImage();
@@ -63,7 +63,7 @@ public class PiCameraUtilPythonTest {
     @Test
     @DisplayName("Get camera image model from python API - connection timed out - should throw camera exception")
     public void getCameraImage_ConnectionTimedOut_ShouldThrowCameraException() throws IOException {
-        Mockito.when(this.pythonApiUtil.getRestCallResult(any(PythonApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
+        Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new ResourceAccessException("Connect timed out"));
 
         assertThrows(CameraException.class, () -> this.piCameraUtilPython.getCameraImage());
@@ -72,7 +72,7 @@ public class PiCameraUtilPythonTest {
     @Test
     @DisplayName("Get camera image model from python API - incorrect URL - should throw camera exception")
     public void getCameraImage_IncorrectUrl_ShouldThrowCameraException() throws IOException {
-        Mockito.when(this.pythonApiUtil.getRestCallResult(any(PythonApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
+        Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new IOException("Incorrect URL"));
 
         assertThrows(CameraException.class, () -> this.piCameraUtilPython.getCameraImage());
@@ -81,7 +81,7 @@ public class PiCameraUtilPythonTest {
     @Test
     @DisplayName("Get camera image in base64 format from python API - should return image")
     public void getCameraImageAsBase64_ShouldReturnImageAsBase64() throws IOException {
-        Mockito.when(this.pythonApiUtil.getRestCallResult(any(PythonApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
+        Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenReturn(this.getBase64ImageAsByteArray());
 
         final var imageAsBase64 = this.piCameraUtilPython.getCameraImageAsBase64();
@@ -91,7 +91,7 @@ public class PiCameraUtilPythonTest {
     @Test
     @DisplayName("Get camera image in base64 format from python API - connection timed out - should throw camera exception")
     public void getCameraImageAsBase64_ConnectionTimedOut_ShouldThrowCameraException() throws IOException {
-        Mockito.when(this.pythonApiUtil.getRestCallResult(any(PythonApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
+        Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new ResourceAccessException("Connect timed out"));
 
         assertThrows(CameraException.class, () -> this.piCameraUtilPython.getCameraImageAsBase64());
@@ -100,7 +100,7 @@ public class PiCameraUtilPythonTest {
     @Test
     @DisplayName("Get camera image in base64 format from python API - incorrect URL - should throw camera exception")
     public void getCameraImageAsBase64_IncorrectUrl_ShouldThrowCameraException() throws IOException {
-        Mockito.when(this.pythonApiUtil.getRestCallResult(any(PythonApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
+        Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new IOException("Incorrect URL"));
 
         assertThrows(CameraException.class, () -> this.piCameraUtilPython.getCameraImageAsBase64());

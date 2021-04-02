@@ -3,9 +3,10 @@ package pl.blasiak.common.util;
 import org.springframework.http.HttpMethod;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 
-public interface PythonApiUtil {
+public interface ExternalApiUtil {
 
     /**
      * Makes rest api call to given URL with specified http method and query params
@@ -18,5 +19,14 @@ public interface PythonApiUtil {
      * @return rest api response in given class format
      * @throws IOException incorrect URL or unexpected network error occured
      */
-    <T> T getRestCallResult(final PythonApiUrl url, final HttpMethod httpMethod, Map<String, String> queryParams, Class<T> targetClass) throws IOException;
+    <T> T getRestCallResult(final ExternalApiUrl url, final HttpMethod httpMethod, Map<String, String> queryParams, Class<T> targetClass) throws IOException;
+
+    /**
+     *
+     * @param finalUrl
+     * @param httpMethod
+     * @return
+     * @throws IOException
+     */
+    String getRestCallResultAsString(final URL finalUrl, final HttpMethod httpMethod) throws IOException;
 }

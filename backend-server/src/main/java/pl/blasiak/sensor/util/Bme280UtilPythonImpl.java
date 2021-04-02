@@ -7,8 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.ProfilesConfig;
-import pl.blasiak.common.util.PythonApiUrl;
-import pl.blasiak.common.util.PythonApiUtil;
+import pl.blasiak.common.util.ExternalApiUrl;
+import pl.blasiak.common.util.ExternalApiUtil;
 import pl.blasiak.sensor.dto.Bme280MeasurementsModel;
 import pl.blasiak.sensor.exception.SensorException;
 
@@ -20,16 +20,16 @@ import java.util.Collections;
 public class Bme280UtilPythonImpl implements Bme280Util {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private final PythonApiUtil pythonApiUtil;
+    private final ExternalApiUtil externalApiUtil;
 
-    public Bme280UtilPythonImpl(final PythonApiUtil pythonApiUtil) {
-        this.pythonApiUtil = pythonApiUtil;
+    public Bme280UtilPythonImpl(final ExternalApiUtil externalApiUtil) {
+        this.externalApiUtil = externalApiUtil;
     }
 
     @Override
     public Bme280MeasurementsModel getBme280Measurements() {
         try {
-            return pythonApiUtil.getRestCallResult(PythonApiUrl.BME280, HttpMethod.GET, Collections.emptyMap(), Bme280MeasurementsModel.class);
+            return externalApiUtil.getRestCallResult(ExternalApiUrl.BME280, HttpMethod.GET, Collections.emptyMap(), Bme280MeasurementsModel.class);
         } catch (IOException | ResourceAccessException e) {
             LOGGER.error(e.getMessage(), e);
             throw new SensorException(e.getMessage(), e);

@@ -10,6 +10,10 @@ interface Bme280MeasurementsModel {
   pressure: number;
 }
 
+interface WeatherModel {
+  temperature: number;
+}
+
 @Component({
   selector: 'app-environment',
   templateUrl: './environment.component.html',
@@ -26,7 +30,7 @@ export class EnvironmentComponent implements OnInit {
 
   constructor(private _http: HttpClient, private configService: ConfigService) {
     this._bme280MeasurementEndpoint = configService.getBaseUrl() + '/api/bme280';
-    this._weatherEndpoint = `https://api.openweathermap.org/data/2.5/weather?id=${configService.getOpenWeatherMapCityId()}&appid=${configService.getOpenWeatherMapApiKey()}`;
+    this._weatherEndpoint = configService.getBaseUrl() + '/api/weather';
   }
 
   get temperature() {
@@ -57,8 +61,8 @@ export class EnvironmentComponent implements OnInit {
         this._humidity = model.humidity.toFixed(1);
         this._pressure = model.pressure.toFixed(1);
       });
-    this._http.get(this._weatherEndpoint).subscribe((res: any) => {
-      this._weatherTemperature = (res.main.temp - 273.15).toFixed(1);
+    this._http.get(this._weatherEndpoint).subscribe((response: WeatherModel) => {
+      this._weatherTemperature = response.temperature.toFixed(1);
     });
   }
 }

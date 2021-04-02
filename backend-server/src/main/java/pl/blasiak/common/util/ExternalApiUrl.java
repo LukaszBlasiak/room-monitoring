@@ -2,15 +2,16 @@ package pl.blasiak.common.util;
 
 import lombok.Getter;
 
-public enum PythonApiUrl {
+public enum ExternalApiUrl {
 
     MEDIUM_ROOM_PREVIEW("/cameraPreview"),
-    BME280("/bme280");
+    BME280("/bme280"),
+    OPENWEATHER("https://api.openweathermap.org/data/2.5/weather");
 
     @Getter
     private final String url;
 
-    PythonApiUrl(final String url) {
+    ExternalApiUrl(final String url) {
         this.url = url;
     }
 }

@@ -10,8 +10,8 @@ import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.camera.exception.CameraException;
 import pl.blasiak.camera.mapper.ImageModelMapper;
-import pl.blasiak.common.util.PythonApiUrl;
-import pl.blasiak.common.util.PythonApiUtilImpl;
+import pl.blasiak.common.util.ExternalApiUrl;
+import pl.blasiak.common.util.ExternalApiUtilImpl;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -25,10 +25,10 @@ import java.util.Collections;
 @Component
 public class PiCameraUtilPythonImpl extends PiCameraUtil {
 
-    private final PythonApiUtilImpl urlUtil;
+    private final ExternalApiUtilImpl urlUtil;
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public PiCameraUtilPythonImpl(final PythonApiUtilImpl urlUtil, final ImageModelMapper imageModelMapper) {
+    public PiCameraUtilPythonImpl(final ExternalApiUtilImpl urlUtil, final ImageModelMapper imageModelMapper) {
         super(imageModelMapper);
         this.urlUtil = urlUtil;
     }
@@ -37,7 +37,7 @@ public class PiCameraUtilPythonImpl extends PiCameraUtil {
     public String getCameraImageAsBase64() {
         try {
             final byte[] imageAsBytes =
-                    urlUtil.getRestCallResult(PythonApiUrl.MEDIUM_ROOM_PREVIEW, HttpMethod.GET, Collections.emptyMap(), byte[].class);
+                    urlUtil.getRestCallResult(ExternalApiUrl.MEDIUM_ROOM_PREVIEW, HttpMethod.GET, Collections.emptyMap(), byte[].class);
             return Base64Utils.encodeToString(imageAsBytes);
         } catch (IOException | ResourceAccessException e) {
             LOGGER.error(e.getMessage(), e);
