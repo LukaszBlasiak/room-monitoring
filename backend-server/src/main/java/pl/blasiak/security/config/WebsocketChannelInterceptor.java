@@ -11,7 +11,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Component;
-import pl.blasiak.security.service.JwtServiceImpl;
+import pl.blasiak.security.service.JwtService;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class WebsocketChannelInterceptor implements ChannelInterceptor {
 
-    private final JwtServiceImpl jwtService;
+    private final JwtService jwtService;
 
     @Override
     public Message<?> preSend(final Message<?> message, final MessageChannel channel) {

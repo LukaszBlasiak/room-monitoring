@@ -6,7 +6,7 @@ public enum ExternalApiUrl {
 
     MEDIUM_ROOM_PREVIEW("/cameraPreview"),
     BME280("/bme280"),
-    OPENWEATHER("https://api.openweathermap.org/data/2.5/weather");
+    OPEN_WEATHER("https://api.openweathermap.org/data/2.5/weather");
 
     @Getter
     private final String url;

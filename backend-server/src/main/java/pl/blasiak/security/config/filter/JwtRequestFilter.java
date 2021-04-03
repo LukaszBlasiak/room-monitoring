@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import pl.blasiak.security.config.JwtConstants;
-import pl.blasiak.security.service.JwtServiceImpl;
+import pl.blasiak.security.service.JwtService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final JwtServiceImpl jwtService;
+    private final JwtService jwtService;
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,

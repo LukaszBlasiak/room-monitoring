@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class PythonApiConfig {
 
-    private String url;
+    public static final String API_KEY_NAME = "key";
+
+    private String baseUrl;
+    private String secret;
 
 }

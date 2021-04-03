@@ -5,10 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.ResourceAccessException;
+import pl.blasiak.application.config.OpenWeatherConfig;
 import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.common.util.ExternalApiUrl;
 import pl.blasiak.common.util.ExternalApiUtilImpl;
@@ -26,6 +28,9 @@ import static org.mockito.ArgumentMatchers.eq;
 @ActiveProfiles(ProfilesConfig.PROFILE_PROD)
 public class Bme280UtilPythonTest {
 
+    @Autowired
+    private OpenWeatherConfig openWeatherConfig;
+
     @Mock
     private ExternalApiUtilImpl pythonApiUtil;
 
@@ -33,7 +38,7 @@ public class Bme280UtilPythonTest {
 
     @BeforeEach
     void initMocks() {
-        this.bme280Util = new Bme280UtilPythonImpl(pythonApiUtil);
+        this.bme280Util = new Bme280UtilPythonImpl(pythonApiUtil, openWeatherConfig);
     }
 
     private Bme280MeasurementsModel prepareResponseModel() {
@@ -50,7 +55,7 @@ public class Bme280UtilPythonTest {
         assertNotNull(measurements);
         assertEquals(1.23f, measurements.getTemperature());
         assertEquals(4.56f, measurements.getHumidity());
-        assertEquals(7.89f, measurements.getPressure());
+        assertEquals(38.853855f, measurements.getPressure());
     }
 
     @Test

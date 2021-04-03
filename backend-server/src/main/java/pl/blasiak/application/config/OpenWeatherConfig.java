@@ -6,12 +6,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "openweather")
+@ConfigurationProperties(prefix = "open-weather")
 @Getter
 @Setter
 public class OpenWeatherConfig {
 
+    public static final String CITY_KEY = "id";
+    public static final String AUTH_KEY = "appid";
+
     private Integer cityId;
     private String apiKey;
+    private Float altitude;
 
 }

@@ -1,4 +1,4 @@
-package pl.blasiak.security.converter;
+package pl.blasiak.security.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

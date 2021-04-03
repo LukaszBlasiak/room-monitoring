@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.blasiak.security.config.JwtConstants;
-import pl.blasiak.security.service.JwtServiceImpl;
+import pl.blasiak.security.service.JwtService;
 
 @Component
 public class TestRequestFactory {
@@ -20,7 +20,7 @@ public class TestRequestFactory {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtServiceImpl jwtService;
+    private JwtService jwtService;
 
     public MockHttpServletRequestBuilder get(final String url) {
         final var authentication =

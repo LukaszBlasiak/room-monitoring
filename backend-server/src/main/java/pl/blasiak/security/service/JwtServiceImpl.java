@@ -21,7 +21,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class JwtServiceImpl {
+public class JwtServiceImpl implements JwtService {
 
     private final JwtProperties jwtProperties;
     private static final Function<LocalDateTime, Date> convertLocalDateTimeToDate = (localDateTime) -> Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -31,7 +31,7 @@ public class JwtServiceImpl {
         this.jwtProperties = jwtProperties;
     }
 
-
+    @Override
     public Authentication getAuthentication(@NonNull final String token) {
         final var claims = Jwts.parser()
                 .setSigningKey(encodeStringWithBase64.apply(jwtProperties.getSecret()))
@@ -46,6 +46,7 @@ public class JwtServiceImpl {
         return new UsernamePasswordAuthenticationToken(claims.getSubject(), StringUtils.EMPTY, authorities);
     }
 
+    @Override
     public String createToken(@NonNull final Authentication authentication) {
         final var now = LocalDateTime.now();
         final var expirationTime = now.plusSeconds(jwtProperties.getExpiration());

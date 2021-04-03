@@ -8,7 +8,7 @@ import pl.blasiak.sensor.dto.WeatherModel;
 public class WeatherMapperImpl implements WeatherMapper {
 
     @Override
-    public WeatherModel openweatherToModel(final String response) {
+    public WeatherModel openWeatherResponseToModel(final String response) {
         final var json = new JSONObject(response);
         final var forecast = json.getJSONObject("main");
         return WeatherModel.builder()
