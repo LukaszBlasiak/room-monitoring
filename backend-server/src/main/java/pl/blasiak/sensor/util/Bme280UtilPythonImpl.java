@@ -16,8 +16,8 @@ import pl.blasiak.sensor.exception.SensorException;
 import java.io.IOException;
 import java.util.Collections;
 
-@Service
 @Profile(ProfilesConfig.PROFILE_PROD)
+@Service
 public class Bme280UtilPythonImpl implements Bme280Util {
 
     private static final Logger LOGGER = LogManager.getLogger();

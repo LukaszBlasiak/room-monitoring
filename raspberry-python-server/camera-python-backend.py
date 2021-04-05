@@ -14,17 +14,18 @@ from werkzeug import FileWrapper
 import sys
 import json
 
-
-
-APP_KEY = 'r[8ikCroO!z3B$S^xkszT'
+APP_KEY = 'secret'
+CAMERA_WIDTH = 1280
+CAMERA_HEIGHT = 720
 
 app = Flask(__name__)
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
-camera = PiCamera()
-camera.resolution = (1280, 720)
 
-cracow_altitude = 257
+camera = PiCamera()
+camera.resolution = (CAMERA_WIDTH, CAMERA_HEIGHT)
+
+
 port = 1
 address = 0x76
 bus = smbus2.SMBus(port)
@@ -54,7 +55,7 @@ def get_bme280_measurements():
     response_model = {}
     response_model["temperature"] = data.temperature
     response_model["humidity"] = data.humidity
-    response_model["pressure"] = data.pressure + cracow_altitude/8.3
+    response_model["pressure"] = data.pressure
     return json.dumps(response_model)
 
 @app.route('/bme280')
@@ -69,12 +70,5 @@ def get_bme280_measurements_response():
         return "Incorrect APP KEY", 401
 
 if __name__ == '__main__':
-    app.run(host= '0.0.0.0')
-
-
-
-
-
-
-
-
+    #app.run(host= '0.0.0.0') #uncomment to get access outside localhost
+    app.run()

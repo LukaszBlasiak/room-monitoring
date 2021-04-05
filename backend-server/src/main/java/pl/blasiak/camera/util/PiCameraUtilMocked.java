@@ -2,7 +2,7 @@ package pl.blasiak.camera.util;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.camera.exception.CameraException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Profile(ProfilesConfig.PROFILE_LOCAL)
-@Component
+@Service
 public class PiCameraUtilMocked extends PiCameraUtil {
 
     public PiCameraUtilMocked(final ImageModelMapper imageModelMapper) {
