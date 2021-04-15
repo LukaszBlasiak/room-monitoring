@@ -1,0 +1,68 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.0'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+group 'pl.blasiak'
+version '1.0'
+apply plugin: 'war'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-messaging'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.webjars:stomp-websocket:2.3.3'
+    implementation 'org.webjars:sockjs-client:1.0.2'
+    implementation 'org.webjars:webjars-locator-core'
+    implementation 'org.webjars:bootstrap:3.3.7'
+    implementation 'org.webjars:jquery:3.1.1-1'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.3.0.RELEASE'
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    implementation 'org.mapstruct:mapstruct:1.4.1.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
+    implementation group: 'de.sciss', name: 'jrpicam', version: '0.2.0'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation("com.google.guava:guava:30.1-jre")
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.200'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.2'
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.3.1'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    implementation group: 'org.json', name: 'json', version: '20210307'
+
+//    testCompile "org.testcontainers:testcontainers:1.15.2"
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.7.7'
+}
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-logging'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootWar {
+    archiveFileName  = 'room-panel-backend.war'
+}
+
+
+
+
