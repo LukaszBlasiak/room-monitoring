@@ -20,10 +20,11 @@ import java.util.Base64;
  * Pi camera preview util that uses Java library under the hood to access camera.
  * This approach is way slower comparing to native python implementation but
  * does not require any additional script not related to Java Spring application.
+ * @deprecated
  */
 @Profile("disabled")
 @Service
-@Deprecated
+@Deprecated(forRemoval = true)
 public class PiCameraUtilJavaImpl extends PiCameraUtil {
 
     private static final Logger logger = LogManager.getLogger();
@@ -53,6 +54,7 @@ public class PiCameraUtilJavaImpl extends PiCameraUtil {
             ImageIO.write(image, EXTENSION, os);
             return Base64.getEncoder().encodeToString(os.toByteArray());
         } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new CameraException(e.getMessage(), e);
         }
     }

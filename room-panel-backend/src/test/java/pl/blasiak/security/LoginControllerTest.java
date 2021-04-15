@@ -19,20 +19,20 @@ import static pl.blasiak.helper.TestRequestFactory.*;
 @AutoConfigureMockMvc
 @ActiveProfiles(ProfilesConfig.PROFILE_LOCAL)
 @UsersInit
-public class LoginControllerTest {
+class LoginControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
     @Test
-    public void login_CorrectCredentials_ShouldLogIn() throws Exception {
+    void login_CorrectCredentials_ShouldLogIn() throws Exception {
         final var jwtRequest = new JwtRequest(USERNAME, PASSWORD);
         this.mockMvc.perform(post("/api/auth/logon").contentType(MediaType.APPLICATION_JSON).content(asJsonString(jwtRequest)))
                 .andExpect(status().is(200));
     }
 
     @Test
-    public void login_IncorrectCredentials_ShouldLogIn() throws Exception {
+    void login_IncorrectCredentials_ShouldLogIn() throws Exception {
         final var jwtRequest = new JwtRequest("incorrect", "credential");
         this.mockMvc.perform(post("/api/auth/logon").contentType(MediaType.APPLICATION_JSON).content(asJsonString(jwtRequest)))
                 .andExpect(status().is(401));

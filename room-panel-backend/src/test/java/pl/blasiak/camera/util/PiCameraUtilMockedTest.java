@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles(ProfilesConfig.PROFILE_LOCAL)
-public class PiCameraUtilMockedTest {
+class PiCameraUtilMockedTest {
 
     @Autowired
-    private PiCameraUtil piCameraUtilMocked;
+    private PiCameraUtilMocked piCameraUtilMocked;
 
     @Test
     @DisplayName("Get camera image model from mocked API - should return image")
-    public void getCameraImage_ShouldReturnImageModel() {
+    void getCameraImage_ShouldReturnImageModel() {
         final var imageModel = this.piCameraUtilMocked.getCameraImage();
         assertNotNull(imageModel);
         assertEquals(imageModel.getCreationTime().truncatedTo(ChronoUnit.MINUTES), LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
@@ -31,7 +31,7 @@ public class PiCameraUtilMockedTest {
 
     @Test
     @DisplayName("Get camera image in base64 format from mocked API - should return image")
-    public void getCameraImageAsBase64_ShouldReturnImageAsBase64() {
+    void getCameraImageAsBase64_ShouldReturnImageAsBase64() {
         final var imageAsBase64 = this.piCameraUtilMocked.getCameraImageAsBase64();
         assertDoesNotThrow(() -> Base64.getDecoder().decode(imageAsBase64));
     }

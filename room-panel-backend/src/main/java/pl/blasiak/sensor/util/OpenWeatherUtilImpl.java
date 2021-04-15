@@ -18,15 +18,15 @@ public class OpenWeatherUtilImpl implements OpenWeatherUtil {
 
     private final ExternalApiUtil externalApiUtil;
     private final WeatherMapper weatherMapper;
-    private final URL FINAL_URL;
-    private final static String URL_FORMAT = "%s?%s=%s&%s=%s";
+    private final URL finalUrl;
+    private static final String URL_FORMAT = "%s?%s=%s&%s=%s";
 
     public OpenWeatherUtilImpl(final OpenWeatherConfig openWeatherConfig, final ExternalApiUtil externalApiUtil,
                                final WeatherMapper weatherMapper) {
         this.externalApiUtil = externalApiUtil;
         this.weatherMapper = weatherMapper;
         try {
-            this.FINAL_URL = new URL(String.format(URL_FORMAT, ExternalApiUrl.OPEN_WEATHER.getUrl(), OpenWeatherConfig.CITY_KEY,
+            this.finalUrl = new URL(String.format(URL_FORMAT, ExternalApiUrl.OPEN_WEATHER.getUrl(), OpenWeatherConfig.CITY_KEY,
                     openWeatherConfig.getCityId(), OpenWeatherConfig.AUTH_KEY, openWeatherConfig.getApiKey()));
         } catch (MalformedURLException e) {
             throw new SensorException(e.getMessage(), e);
@@ -36,7 +36,7 @@ public class OpenWeatherUtilImpl implements OpenWeatherUtil {
     @Override
     public WeatherModel getWeather() {
         try {
-            final var response = this.externalApiUtil.getRestCallResultAsString(FINAL_URL, HttpMethod.GET);
+            final var response = this.externalApiUtil.getRestCallResultAsString(finalUrl, HttpMethod.GET);
             return this.weatherMapper.openWeatherResponseToModel(response);
         } catch (IOException e) {
             throw new SensorException(e.getMessage(), e);

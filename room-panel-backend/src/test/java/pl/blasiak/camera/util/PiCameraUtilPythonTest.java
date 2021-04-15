@@ -3,8 +3,10 @@ package pl.blasiak.camera.util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
@@ -29,7 +31,8 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 @ActiveProfiles(ProfilesConfig.PROFILE_PROD)
-public class PiCameraUtilPythonTest {
+@ExtendWith(MockitoExtension.class)
+class PiCameraUtilPythonTest {
 
     @Mock
     private ExternalApiUtilImpl pythonApiUtil;
@@ -50,7 +53,7 @@ public class PiCameraUtilPythonTest {
 
     @Test
     @DisplayName("Get camera image model from python API - should return image")
-    public void getCameraImage_ShouldReturnImageModel() throws IOException {
+    void getCameraImage_ShouldReturnImageModel() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenReturn(this.getBase64ImageAsByteArray());
 
@@ -62,7 +65,7 @@ public class PiCameraUtilPythonTest {
 
     @Test
     @DisplayName("Get camera image model from python API - connection timed out - should throw camera exception")
-    public void getCameraImage_ConnectionTimedOut_ShouldThrowCameraException() throws IOException {
+    void getCameraImage_ConnectionTimedOut_ShouldThrowCameraException() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new ResourceAccessException("Connect timed out"));
 
@@ -71,7 +74,7 @@ public class PiCameraUtilPythonTest {
 
     @Test
     @DisplayName("Get camera image model from python API - incorrect URL - should throw camera exception")
-    public void getCameraImage_IncorrectUrl_ShouldThrowCameraException() throws IOException {
+    void getCameraImage_IncorrectUrl_ShouldThrowCameraException() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new IOException("Incorrect URL"));
 
@@ -80,7 +83,7 @@ public class PiCameraUtilPythonTest {
 
     @Test
     @DisplayName("Get camera image in base64 format from python API - should return image")
-    public void getCameraImageAsBase64_ShouldReturnImageAsBase64() throws IOException {
+    void getCameraImageAsBase64_ShouldReturnImageAsBase64() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenReturn(this.getBase64ImageAsByteArray());
 
@@ -90,7 +93,7 @@ public class PiCameraUtilPythonTest {
 
     @Test
     @DisplayName("Get camera image in base64 format from python API - connection timed out - should throw camera exception")
-    public void getCameraImageAsBase64_ConnectionTimedOut_ShouldThrowCameraException() throws IOException {
+    void getCameraImageAsBase64_ConnectionTimedOut_ShouldThrowCameraException() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new ResourceAccessException("Connect timed out"));
 
@@ -99,7 +102,7 @@ public class PiCameraUtilPythonTest {
 
     @Test
     @DisplayName("Get camera image in base64 format from python API - incorrect URL - should throw camera exception")
-    public void getCameraImageAsBase64_IncorrectUrl_ShouldThrowCameraException() throws IOException {
+    void getCameraImageAsBase64_IncorrectUrl_ShouldThrowCameraException() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new IOException("Incorrect URL"));
 

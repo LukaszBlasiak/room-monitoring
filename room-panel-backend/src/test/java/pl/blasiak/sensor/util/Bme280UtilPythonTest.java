@@ -3,8 +3,10 @@ package pl.blasiak.sensor.util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
@@ -26,7 +28,8 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 @ActiveProfiles(ProfilesConfig.PROFILE_PROD)
-public class Bme280UtilPythonTest {
+@ExtendWith(MockitoExtension.class)
+class Bme280UtilPythonTest {
 
     @Autowired
     private OpenWeatherConfig openWeatherConfig;
@@ -47,7 +50,7 @@ public class Bme280UtilPythonTest {
 
     @Test
     @DisplayName("Get BME280 measurements from python API - should return measurements")
-    public void getBme280Measurements_ShouldReturnMeasurementsModel() throws IOException {
+    void getBme280Measurements_ShouldReturnMeasurementsModel() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenReturn(this.prepareResponseModel());
 
@@ -60,7 +63,7 @@ public class Bme280UtilPythonTest {
 
     @Test
     @DisplayName("Get BME280 measurements from python API - connection timed out - should throw sensor exception")
-    public void getBme280Measurementse_ConnectionTimedOut_ShouldThrowSensorException() throws IOException {
+    void getBme280Measurements_ConnectionTimedOut_ShouldThrowSensorException() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new ResourceAccessException("Connect timed out"));
 
@@ -69,7 +72,7 @@ public class Bme280UtilPythonTest {
 
     @Test
     @DisplayName("Get BME280 measurements from python API - incorrect URL - should throw sensor exception")
-    public void getBme280Measurements_IncorrectUrl_ShouldThrowSensorException() throws IOException {
+    void getBme280Measurements_IncorrectUrl_ShouldThrowSensorException() throws IOException {
         Mockito.when(this.pythonApiUtil.getRestCallResult(any(ExternalApiUrl.class), eq(HttpMethod.GET), any(Map.class), any(Class.class)))
                 .thenThrow(new IOException("Incorrect URL"));
 

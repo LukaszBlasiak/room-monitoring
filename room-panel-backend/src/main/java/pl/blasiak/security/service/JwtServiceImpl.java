@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 public class JwtServiceImpl implements JwtService {
 
     private final JwtProperties jwtProperties;
-    private static final Function<LocalDateTime, Date> convertLocalDateTimeToDate = (localDateTime) -> Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    private static final Function<String, byte[]> encodeStringWithBase64 = (str) -> Base64.getEncoder().encode(str.getBytes());
+    private static final Function<LocalDateTime, Date> convertLocalDateTimeToDate = localDateTime -> Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    private static final Function<String, byte[]> encodeStringWithBase64 = str -> Base64.getEncoder().encode(str.getBytes());
 
     public JwtServiceImpl(final JwtProperties jwtProperties) {
         this.jwtProperties = jwtProperties;

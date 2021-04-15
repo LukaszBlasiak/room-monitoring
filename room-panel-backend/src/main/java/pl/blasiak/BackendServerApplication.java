@@ -1,5 +1,6 @@
 package pl.blasiak;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,6 @@ public class BackendServerApplication extends SpringBootServletInitializer {
 
     public static void main(String [] args) {
         SpringApplication.run(BackendServerApplication.class);
-        consoleLogger.info(String.format("Swagger access URL: %s", "http://localhost:8080/swagger-ui.html"));
+        consoleLogger.log(Level.INFO, "Swagger access URL: {}", "http://localhost:8080/swagger-ui.html");
     }
 }

@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles(ProfilesConfig.PROFILE_LOCAL)
 @UsersInit
-public class Bme280ControllerTest {
+class Bme280ControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -26,7 +26,7 @@ public class Bme280ControllerTest {
     TestRequestFactory testRequestFactory;
 
     @Test
-    public void getBme280Measurements_ShouldReturnMeasurements() throws Exception {
+    void getBme280Measurements_ShouldReturnMeasurements() throws Exception {
         this.mockMvc.perform(testRequestFactory.get("/api/bme280"))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.temperature").value(26.291994f))

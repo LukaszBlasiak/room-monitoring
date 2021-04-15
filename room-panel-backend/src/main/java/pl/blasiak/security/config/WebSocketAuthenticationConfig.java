@@ -11,10 +11,10 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @AllArgsConstructor
 public class WebSocketAuthenticationConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final WebsocketChannelInterceptor WebsocketChannelInterceptor;
+    private final WebsocketChannelInterceptor websocketChannelInterceptor;
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(WebsocketChannelInterceptor);
+        registration.interceptors(websocketChannelInterceptor);
     }
 }

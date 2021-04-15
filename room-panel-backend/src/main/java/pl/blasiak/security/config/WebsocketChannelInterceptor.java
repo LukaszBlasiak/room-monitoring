@@ -39,6 +39,6 @@ public class WebsocketChannelInterceptor implements ChannelInterceptor {
     }
 
     private String getAuthorisationHeaderFromList(final List<String> authorization) {
-        return authorization == null || authorization.size() == 0 ? Strings.EMPTY : authorization.get(0);
+        return authorization == null || authorization.isEmpty() ? Strings.EMPTY : authorization.get(0);
     }
 }

@@ -16,13 +16,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles(ProfilesConfig.PROFILE_LOCAL)
 @UsersInit
-public class Bme280ControllerSecurityTest {
+class Bme280ControllerSecurityTest {
 
     @Autowired
     MockMvc mockMvc;
 
     @Test
-    public void getBme280Measurements_ShouldReturnMeasurements() throws Exception {
+    void getBme280Measurements_ShouldReturnMeasurements() throws Exception {
         this.mockMvc.perform(get("/api/bme280"))
                 .andExpect(status().is(401));
     }
