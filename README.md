@@ -1,4 +1,5 @@
 ![Room monitoring](./_example/logo.png)
+[![YourActionName Actions Status](https://github.com/LukaszBlasiak/smart-home/workflows/backend-build/badge.svg)](https://github.com/LukaszBlasiak/smart-home/actions)
 
 Simple and transparent room monitoring panel with basic environment measurements and weather forecast (OpenWeather API). 
 Project is based on Raspberry Pi platform with sensors such as FishEye camera and Bosch BME280.
