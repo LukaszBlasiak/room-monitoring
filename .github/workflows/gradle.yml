@@ -26,6 +26,6 @@ jobs:
     - name: Download gradle
       run: ./room-panel-backend/gradlew wrapper
     - name: Test with Gradle
-      run: ./room-panel-backend/gradlew test
+      run: ./room-panel-backend/gradlew clean test
     - name: Build with Gradle
-      run: ./room-panel-backend/gradlew build
+      run: ./room-panel-backend/gradlew clean build
