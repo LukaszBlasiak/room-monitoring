@@ -25,5 +25,7 @@ jobs:
       run: chmod +x ./room-panel-backend/gradlew
     - name: Download gradle
       run: ./room-panel-backend/gradlew wrapper
+    - name: Test with Gradle
+      run: ./room-panel-backend/gradlew test
     - name: Build with Gradle
       run: ./room-panel-backend/gradlew build
