@@ -52,7 +52,7 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/api/auth/logon", "/api/auth/logout", "/swagger-ui.html").permitAll()
+                .antMatchers("/api/auth/logon", "/api/auth/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -75,12 +75,9 @@ public class SecurityConfigLocal extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity webSecurity) {
         webSecurity.ignoring().antMatchers(
-                "/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html");
     }
 
     @Bean

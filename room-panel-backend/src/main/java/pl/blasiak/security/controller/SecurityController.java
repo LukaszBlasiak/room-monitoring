@@ -1,7 +1,7 @@
 package pl.blasiak.security.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import pl.blasiak.security.service.JwtService;
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
-@Api(description = "Set of endpoints for Creating, Retrieving, and Deleting user's session. Token is returned in " +
+@Tag(name = "auth", description = "Set of endpoints for Creating, Retrieving, and Deleting user's session. Token is returned in " +
         "request cookie with httpOnly=true flag.")
 public class SecurityController {
 
@@ -28,7 +28,7 @@ public class SecurityController {
     private final JwtMapper jwtMapper;
 
     @PostMapping(value = "/logon")
-    @ApiOperation("Returns a new JWT based on given credentials.")
+    @Operation(summary = "Returns a new JWT based on given credentials.")
     public ResponseEntity<JwtModel> generateAuthenticationToken(@RequestBody final JwtRequest authenticationRequest) {
         final var authentication = this.authenticationService
                 .authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());

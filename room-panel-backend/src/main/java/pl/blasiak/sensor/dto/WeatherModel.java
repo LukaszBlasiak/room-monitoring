@@ -1,6 +1,6 @@
 package pl.blasiak.sensor.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "Model representing a weather forecast.")
+@Schema(description = "Model representing a weather forecast.")
 public class WeatherModel {
     private Float temperature;
 }
