@@ -21,11 +21,13 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
+    - name: Proceed do backend directory
+      run: cd ./room-panel-backend
     - name: Grant execute permission for gradlew
-      run: chmod +x ./room-panel-backend/gradlew
+      run: chmod +x ./gradlew
     - name: Download gradle
-      run: ./room-panel-backend/gradlew wrapper
+      run: ./gradlew wrapper
     - name: Test with Gradle
-      run: ./room-panel-backend/gradlew clean test
+      run: ./gradlew clean test
     - name: Build with Gradle
-      run: ./room-panel-backend/gradlew clean build
+      run: ./gradlew clean build
