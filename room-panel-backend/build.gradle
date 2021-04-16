@@ -37,14 +37,13 @@ dependencies {
     implementation group: 'de.sciss', name: 'jrpicam', version: '0.2.0'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation("com.google.guava:guava:30.1-jre")
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     compile group: 'com.h2database', name: 'h2', version: '1.4.200'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.7'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.2'
     implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.3.1'
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     implementation group: 'org.json', name: 'json', version: '20210307'
 
 //    testCompile "org.testcontainers:testcontainers:1.15.2"
