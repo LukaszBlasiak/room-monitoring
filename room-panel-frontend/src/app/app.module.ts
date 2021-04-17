@@ -19,7 +19,8 @@ import {AuthenticationService} from './security/service/authentication.service';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule, MatIconModule} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import {HeaderComponent} from './main/component/header/header.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
