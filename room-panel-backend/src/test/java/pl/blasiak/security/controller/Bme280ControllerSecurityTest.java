@@ -1,4 +1,4 @@
-package pl.blasiak.security;
+package pl.blasiak.security.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

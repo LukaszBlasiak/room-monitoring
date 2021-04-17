@@ -1,4 +1,4 @@
-package pl.blasiak.security;
+package pl.blasiak.security.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,8 @@ class LoginControllerTest {
     @Test
     void login_CorrectCredentials_ShouldLogIn() throws Exception {
         final var jwtRequest = new JwtRequest(USERNAME, PASSWORD);
-        this.mockMvc.perform(post("/api/auth/logon").contentType(MediaType.APPLICATION_JSON).content(asJsonString(jwtRequest)))
+        this.mockMvc
+                .perform(post("/api/auth/logon").contentType(MediaType.APPLICATION_JSON).content(asJsonString(jwtRequest)))
                 .andExpect(status().is(200));
     }
 

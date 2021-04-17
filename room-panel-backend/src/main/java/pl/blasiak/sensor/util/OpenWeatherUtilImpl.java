@@ -2,6 +2,7 @@ package pl.blasiak.sensor.util;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.OpenWeatherConfig;
 import pl.blasiak.common.util.ExternalApiUrl;
 import pl.blasiak.common.util.ExternalApiUtil;
@@ -38,7 +39,7 @@ public class OpenWeatherUtilImpl implements OpenWeatherUtil {
         try {
             final var response = this.externalApiUtil.getRestCallResultAsString(finalUrl, HttpMethod.GET);
             return this.weatherMapper.openWeatherResponseToModel(response);
-        } catch (IOException e) {
+        } catch (IOException | ResourceAccessException e) {
             throw new SensorException(e.getMessage(), e);
         }
     }

@@ -1,20 +1,16 @@
 package pl.blasiak.camera.util;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.ResourceAccessException;
 import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.camera.exception.CameraException;
-import pl.blasiak.camera.mapper.ImageModelMapper;
 import pl.blasiak.common.util.ExternalApiUrl;
 import pl.blasiak.common.util.ExternalApiUtilImpl;
 
@@ -31,21 +27,14 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 @ActiveProfiles(ProfilesConfig.PROFILE_PROD)
-@ExtendWith(MockitoExtension.class)
 class PiCameraUtilPythonTest {
 
-    @Mock
+    @MockBean
     private ExternalApiUtilImpl pythonApiUtil;
 
     @Autowired
-    private ImageModelMapper imageModelMapper;
-
     private PiCameraUtil piCameraUtilPython;
 
-    @BeforeEach
-    void initMocks() {
-        piCameraUtilPython = new PiCameraUtilPythonImpl(pythonApiUtil, imageModelMapper);
-    }
 
     private byte[] getBase64ImageAsByteArray() {
         return "dGVzdCBpbWFnZSBieXRlcw==".getBytes(StandardCharsets.UTF_8);

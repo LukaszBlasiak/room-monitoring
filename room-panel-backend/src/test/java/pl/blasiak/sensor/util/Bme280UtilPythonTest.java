@@ -1,18 +1,14 @@
 package pl.blasiak.sensor.util;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.ResourceAccessException;
-import pl.blasiak.application.config.OpenWeatherConfig;
 import pl.blasiak.application.config.ProfilesConfig;
 import pl.blasiak.common.util.ExternalApiUrl;
 import pl.blasiak.common.util.ExternalApiUtilImpl;
@@ -28,21 +24,13 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @SpringBootTest
 @ActiveProfiles(ProfilesConfig.PROFILE_PROD)
-@ExtendWith(MockitoExtension.class)
 class Bme280UtilPythonTest {
 
-    @Autowired
-    private OpenWeatherConfig openWeatherConfig;
-
-    @Mock
+    @MockBean
     private ExternalApiUtilImpl pythonApiUtil;
-
+    @Autowired
     private Bme280Util bme280Util;
 
-    @BeforeEach
-    void initMocks() {
-        this.bme280Util = new Bme280UtilPythonImpl(pythonApiUtil, openWeatherConfig);
-    }
 
     private Bme280MeasurementsModel prepareResponseModel() {
         return Bme280MeasurementsModel.builder().temperature(1.23f).humidity(4.56f).pressure(7.89f).build();

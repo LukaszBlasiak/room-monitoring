@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.blasiak.application.dto.ErrorResponseModel;
-import pl.blasiak.camera.exception.CameraException;
 import pl.blasiak.common.dto.ErrorCode;
 import pl.blasiak.sensor.exception.SensorException;
 
@@ -24,7 +23,7 @@ public class SensorExceptionControllerAdvice {
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({ SensorException.class})
-    public ResponseEntity<ErrorResponseModel> internalException(final CameraException e, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponseModel> internalException(final SensorException e, HttpServletRequest request) {
         final var responseData = ErrorResponseModel.builder()
                 .path(request.getRequestURI())
                 .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)

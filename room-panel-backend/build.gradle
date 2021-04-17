@@ -32,6 +32,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.3.0.RELEASE'
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
     implementation 'org.mapstruct:mapstruct:1.4.1.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
     implementation group: 'de.sciss', name: 'jrpicam', version: '0.2.0'
