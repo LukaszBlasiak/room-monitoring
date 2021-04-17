@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public enum ExternalApiUrl {
 
-    MEDIUM_ROOM_PREVIEW("/cameraPreview"),
+    ROOM_PREVIEW("/cameraPreview"),
     BME280("/bme280"),
     OPEN_WEATHER("https://api.openweathermap.org/data/2.5/weather");
 

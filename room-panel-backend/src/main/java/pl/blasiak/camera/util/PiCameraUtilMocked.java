@@ -16,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class PiCameraUtilMocked extends PiCameraUtil {
 
+    private static final String KITTEN_IMAGE_PATH = "classpath:mocked_preview_kitku.jpeg";
+
     public PiCameraUtilMocked(final ImageModelMapper imageModelMapper) {
         super(imageModelMapper);
     }
@@ -23,7 +25,7 @@ public class PiCameraUtilMocked extends PiCameraUtil {
     @Override
     public String getCameraImageAsBase64() {
         try {
-            final var imgFile = ResourceUtils.getFile("classpath:mocked_preview_kitku.jpeg");
+            final var imgFile = ResourceUtils.getFile(KITTEN_IMAGE_PATH);
             try(final FileInputStream fileInputStreamReader = new FileInputStream(imgFile)) {
                 byte[] bytes = new byte[(int)imgFile.length()];
                 fileInputStreamReader.read(bytes);

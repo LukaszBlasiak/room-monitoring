@@ -1,13 +1,15 @@
 <div class="container" [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen }">
   <img *ngIf="isPreviewAvailable()"
        [src]="imageSrc"
-       class="medium-preview-image"
+       class="preview-image"
        onContextMenu="return false;"
-       [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }">
+       [ngClass]="{ 'fullscreen': isFullscreen, 'small': !isFullscreen  }"
+       alt="room-preview-image">
   <img *ngIf="!isPreviewAvailable()"
        src="./assets/preview.png"
        onContextMenu="return false;"
-       id="preview_thumbnail">
+       id="preview_thumbnail"
+       alt="room-preview-image">
   <div *ngIf="!isPreviewAvailable()" class="middle">
     <div class="text">
       {{ 'CAMERA.OVERLAY_MESSAGE' | translate }}

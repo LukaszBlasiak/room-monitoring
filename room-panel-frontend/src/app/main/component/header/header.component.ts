@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
 import {Subscription} from 'rxjs';
 import {AuthenticationService} from '../../../security/service/authentication.service';
 
@@ -13,11 +12,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isAuthenticated = false;
   private _subscription: Subscription;
 
-  constructor(private _authenticationService: AuthenticationService) {}
+  constructor(private _authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
-   this._subscription =
-     this._authenticationService.isAuthenticated.subscribe(_isAuthenticated => this.isAuthenticated = _isAuthenticated);
+    this._subscription =
+      this._authenticationService.isAuthenticated.subscribe(_isAuthenticated => this.isAuthenticated = _isAuthenticated);
   }
 
   ngOnDestroy(): void {

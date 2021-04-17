@@ -68,7 +68,7 @@ public class CameraImageDispatcher {
             final var headerAccessor = this.prepareHeaderAccessor(listener);
             this.template.convertAndSendToUser(
                     listener,
-                    CameraImageController.MEDIUM_ROOM_PREVIEW_SEND_URL,
+                    CameraImageController.ROOM_PREVIEW_SEND_URL,
                     imageToSend,
                     headerAccessor.getMessageHeaders());
         }

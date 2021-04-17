@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {CameraMediumWebsocketService} from './sensors/camera-preview/service/CameraMediumWebsocket.service';
+import {CameraWebsocketService} from './sensors/camera-preview/service/camera-websocket.service';
 import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AlertComponent} from './security/directive';
@@ -11,7 +11,7 @@ import {LoginComponent} from './security/login';
 import {HomeComponent} from './main/component/home';
 import {AuthGuard} from './security/guard';
 import {UnauthorizedInterceptor} from './security/interceptor/UnauthorizedInterceptor';
-import { MediumRoomPreviewComponent } from './sensors/camera-preview/component/medium-room-preview/medium-room-preview.component';
+import { RoomPreviewComponent } from './sensors/camera-preview/component/room-preview/room-preview.component';
 import {ConfigService} from './security/service/config.service';
 import { EnvironmentComponent } from './sensors/environment/component/environment.component';
 import {AlertService} from './security/service/alert.service';
@@ -32,7 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AlertComponent,
     HomeComponent,
     LoginComponent,
-    MediumRoomPreviewComponent,
+    RoomPreviewComponent,
     EnvironmentComponent,
     HeaderComponent
   ],
@@ -52,7 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatButtonModule,
     MatIconModule
   ],
-  providers: [CameraMediumWebsocketService,
+  providers: [CameraWebsocketService,
     AuthGuard,
     AlertService,
     AuthenticationService,

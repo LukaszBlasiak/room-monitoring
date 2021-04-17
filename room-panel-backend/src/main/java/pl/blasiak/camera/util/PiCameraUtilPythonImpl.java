@@ -37,7 +37,7 @@ public class PiCameraUtilPythonImpl extends PiCameraUtil {
     public String getCameraImageAsBase64() {
         try {
             final byte[] imageAsBytes =
-                    urlUtil.getRestCallResult(ExternalApiUrl.MEDIUM_ROOM_PREVIEW, HttpMethod.GET, Collections.emptyMap(), byte[].class);
+                    urlUtil.getRestCallResult(ExternalApiUrl.ROOM_PREVIEW, HttpMethod.GET, Collections.emptyMap(), byte[].class);
             return Base64Utils.encodeToString(imageAsBytes);
         } catch (IOException | ResourceAccessException e) {
             LOGGER.error(e.getMessage(), e);

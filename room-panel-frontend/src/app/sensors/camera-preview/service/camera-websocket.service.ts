@@ -3,14 +3,15 @@ import * as SockJS from 'sockjs-client';
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {ConfigService} from '../../../security/service/config.service';
-import {ImageModel} from '../component/medium-room-preview/medium-room-preview.component';
+import {ImageModel} from '../component/room-preview/room-preview.component';
 import {AuthenticationService} from '../../../security/service/authentication.service';
 
 @Injectable()
-export class CameraMediumWebsocketService {
+export class CameraWebsocketService {
   private readonly _webSocketEndPoint;
-  private _previewUrl = '/user/preview/medium';
-  private _previewInitializationUrl = '/ws/preview/medium/start';
+  private _previewUrl = '/user/preview';
+  private _previewInitializationUrl = '/ws/preview/start';
+  private _wsRegisterEndpoint = '/ws-smart-home-register-endpoint';
   private _stompClient: any;
   private _connectionReattemptTimeout = 5000;
   private _failedAttempts = 0;
@@ -19,7 +20,7 @@ export class CameraMediumWebsocketService {
   private imageSubject = new Subject<ImageModel>();
 
   constructor(private _configService: ConfigService, private _authenticationService: AuthenticationService) {
-    this._webSocketEndPoint = _configService.getBaseUrl() + '/ws-smart-home-register-endpoint';
+    this._webSocketEndPoint = _configService.getBaseUrl() + this._wsRegisterEndpoint;
   }
 
 
@@ -29,7 +30,7 @@ export class CameraMediumWebsocketService {
     this._stompClient = Stomp.over(ws);
     this._stompClient.debug = null;
     const that = this;
-    that._stompClient.connect({Authorization: 'Bearer ' + jwtToken}, (frame) => {
+    that._stompClient.connect({Authorization: 'Bearer ' + jwtToken}, () => {
       that._stompClient.subscribe(that._previewUrl, (sdkEvent) => {
         that.onMessageReceived(sdkEvent);
       });
@@ -45,7 +46,7 @@ export class CameraMediumWebsocketService {
   }
 
   // on error, schedule a reconnection attempt
-  private errorCallBack(error): void {
+  private errorCallBack(): void {
     if (this._failedAttempts >= this._failedAttemptsLimit) {
       this.disconnect();
     }
