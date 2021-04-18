@@ -27,7 +27,7 @@ This project consists of following modules:
 * **room-panel-backend**: Java 11 + Spring Framework based REST API Service. Handles either authorization (JWT) and requests from 
   frontend panel (GUI). Also makes calls to external REST API Services in order to obtain necessary data like Raspberry 
   Pi camera image, environment measurements, weather forecast etc.
-* **room-panel-frontend**:  Angular 2/7 based user panel that provides either authentication form and camera 
+* **room-panel-frontend**:  Angular 2/11 based user panel that provides either authentication form and camera 
   preview with environment measurements from the backend service.
 * **raspberry-sensors-python-server**: Python Flask based REST API Service with internal (localhost) access only. Provides data 
  from Raspberry Pi modules like BME280, FishEye camera etc. This approach is way faster comparing to Java implementation 
