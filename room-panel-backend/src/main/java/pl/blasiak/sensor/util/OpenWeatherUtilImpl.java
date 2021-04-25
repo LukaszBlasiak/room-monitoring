@@ -1,5 +1,6 @@
 package pl.blasiak.sensor.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResourceAccessException;
@@ -35,6 +36,7 @@ public class OpenWeatherUtilImpl implements OpenWeatherUtil {
     }
 
     @Override
+    @NotNull
     public WeatherModel getWeather() {
         try {
             final var response = this.externalApiUtil.getRestCallResultAsString(finalUrl, HttpMethod.GET);

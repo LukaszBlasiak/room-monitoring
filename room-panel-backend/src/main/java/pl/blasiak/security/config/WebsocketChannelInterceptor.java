@@ -3,6 +3,7 @@ package pl.blasiak.security.config;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -22,7 +23,7 @@ public class WebsocketChannelInterceptor implements ChannelInterceptor {
     private final JwtService jwtService;
 
     @Override
-    public Message<?> preSend(final Message<?> message, final MessageChannel channel) {
+    public Message<?> preSend(@NotNull final Message<?> message, @NotNull final MessageChannel channel) {
         final StompHeaderAccessor accessor =
                 MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (accessor == null || !StompCommand.CONNECT.equals(accessor.getCommand())) {

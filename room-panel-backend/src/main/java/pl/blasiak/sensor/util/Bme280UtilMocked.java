@@ -1,5 +1,6 @@
 package pl.blasiak.sensor.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import pl.blasiak.application.config.ProfilesConfig;
@@ -10,6 +11,7 @@ import pl.blasiak.sensor.dto.Bme280MeasurementsModel;
 public class Bme280UtilMocked implements Bme280Util {
 
     @Override
+    @NotNull
     public Bme280MeasurementsModel getBme280Measurements() {
         return Bme280MeasurementsModel.builder()
                 .temperature(26.291994f)

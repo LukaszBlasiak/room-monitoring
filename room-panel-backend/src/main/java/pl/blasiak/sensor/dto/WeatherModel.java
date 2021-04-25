@@ -12,5 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "Model representing a weather forecast.")
 public class WeatherModel {
+
+    @Schema(description = "Temperature outside obtained from OpenWeatherAPI.")
     private Float temperature;
 }
