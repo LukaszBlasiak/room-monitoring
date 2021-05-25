@@ -1,0 +1,12 @@
+.gradle/*
+.idea/*
+build/*
+data/*
+gradle/*
+logs/*
+out/*
+tmp/*
+.gitignore
+gradlew
+gradlew.bat
+settings.gradle
