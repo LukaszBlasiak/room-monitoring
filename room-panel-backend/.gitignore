@@ -1,5 +1,6 @@
 !**/src/main/**
 !**/src/test/**
+data/
 
 ### STS ###
 .apt_generated
