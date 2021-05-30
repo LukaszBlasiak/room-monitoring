@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+    backend-service:
+        build: ./room-panel-backend
+        volumes:
+            - ./room-panel-backend/src/main/resources:/app/resources
+        ports:
+            - 8080:8080
+            
+    frontend-service:
+        build: ./room-panel-frontend
+        ports:
+            - 4200:80
+        depends_on:
+            - backend-service
