@@ -114,7 +114,7 @@ Python service consists of following essential dependencies:
 * [picamera](https://pypi.org/project/picamera/)
 ### Installation
 Make sure that everything is connected properly and safe:
-![RPi schema](./_example/schema.png)
+![RPi schema](./_example/schema.PNG)
 Open `raspberry-sensors-python-backend.py` file and update following variables located at the beginning of the file:
 * **APP_KEY**: Api key that client must provide to access endpoints 
 * **CAMERA_WIDTH**: output width of captured image from camera
