@@ -113,6 +113,8 @@ Python service consists of following essential dependencies:
 * [RPi.bme280](https://pypi.org/project/RPi.bme280/)
 * [picamera](https://pypi.org/project/picamera/)
 ### Installation
+Make sure that everything is connected properly and safe:
+![RPi schema](./_example/schema.png)
 Open `raspberry-sensors-python-backend.py` file and update following variables located at the beginning of the file:
 * **APP_KEY**: Api key that client must provide to access endpoints 
 * **CAMERA_WIDTH**: output width of captured image from camera
@@ -120,7 +122,7 @@ Open `raspberry-sensors-python-backend.py` file and update following variables l
 * **BME_ADDRESS**: I2C address of BME280 sensor. In most cases it's 0x76.
 
 In order to run python service just proceed to `raspberry-sensors-python-backend.py` file location in terminal and execute 
-`python3 raspberry-sensors-python-backend.py` command - that's all :)  
+`python3 raspberry-sensors-python-backend.py` command.
 By default endpoints are accessible only internally (within localhost). For debugging purposes you can expose 
 application by run application using 
 ```python
