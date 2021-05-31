@@ -10,6 +10,7 @@ Project is based on Raspberry Pi platform with sensors such as FishEye camera an
 
 ## Table of Contents
 - [Project structure](#project-structure)
+- [Docker installation](#docker-installation)
 - [Backend service](#backend-service)
   - [Dependencies](#dependencies)
   - [Installation](#installation)
@@ -33,6 +34,12 @@ This project consists of following modules:
  from Raspberry Pi modules like BME280, FishEye camera etc. This approach is way faster comparing to Java implementation 
   but requires additional HTTP call to Python app not related to Java Spring application.
 
+## Docker installation
+In order to deploy application <b>demo</b> (with mocked data) using docker, proceed to root directory of the project and run following command: 
+`docker-compose up`. It will result in creation and running two docker images: `backend-service` and `frontend-service`. 
+After successful installation, frontend service is accessible on: `localhost:4200`, backend service on: `localhost:8080`
+and API documentation on: `http://localhost:8080/swagger-ui.html`.
+
 ## Backend service
 ### Dependencies
 Backend service consists of following essential dependencies:
@@ -51,7 +58,7 @@ Backend service consists of following essential dependencies:
 * Log4j2
 * JUnit 5
 
-The complete list of dependencies along with their versions may be found in `gradle.build` file under 
+The complete list of dependencies along with their versions can be found in `gradle.build` file under 
 `room-panel-backend` directory.
 ### Installation
 In this project we can distinguish following profiles:
@@ -72,7 +79,7 @@ In last stage copy created `room-panel-backend.war` file into webapps directory 
 secure tomcat accordingly as well :)
 
 ### Local deployment (develop)
-In order to start application in `local` mode just import files within IntelliJ Idea as gradle project and set
+In order to start application in `local` mode just import files within IntelliJ Idea as a gradle project and set
 `-Dspring.profiles.active=local` VM parameter. After successful deployment, swagger API documentation is accessible at
 `http://localhost:8080/swagger-ui.html`.
 ### Security
